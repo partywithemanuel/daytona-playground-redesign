@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daytona Playground — Split Layout</title>
+<style>
+  :root{
+    --bg:#070708;--panel:#0b0b0c;--line:#1d1d1f;--line2:#161618;
+    --surf:#141416;--surf2:#161618;--chip:#26262a;
+    --txt:#f0f0f0;--txt2:#9a9a9e;--txt3:#6b6b6e;--txt4:#5f5f63;--txt5:#4f4f53;
+    --accent:#7ab8f5;--green:#7bd88f;--amber:#eebd6b;
+    --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font-family:var(--sans);font-size:14px;overflow:hidden;}
+  button{font-family:inherit;}
+  svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.15em;flex:none;}
+
+  /* ROOT LAYOUT */
+  .app{display:flex;height:100vh;}
+
+  /* DARK SCROLLBAR — applied globally */
+  ::-webkit-scrollbar{width:6px;height:6px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:#2a2a2d;border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:#3a3a3e;}
+  *{scrollbar-width:thin;scrollbar-color:#2a2a2d transparent;}
+
+  /* LEFT NAV — unchanged */
+  .nav{width:172px;flex:none;border-right:.5px solid var(--line2);padding:16px 11px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;}
+  .brand{display:flex;align-items:center;gap:8px;padding:2px 6px 16px;font-size:15px;font-weight:500;}
+  .org{display:flex;align-items:center;justify-content:space-between;background:var(--surf);border:.5px solid #232325;border-radius:6px;padding:7px 9px;margin-bottom:10px;color:#c0c0c2;font-size:12px;}
+  .nl{display:flex;align-items:center;gap:8px;color:var(--txt2);font-size:12px;padding:7px 8px;border-radius:6px;cursor:default;}
+  .nl.active{color:var(--txt);background:var(--surf2);}
+  .nl svg.ic{font-size:15px;}
+  .ndiv{border-top:.5px solid var(--line2);margin:8px 0;}
+  .ver{margin-top:auto;color:#48484b;font-size:10px;padding:8px 6px;}
+
+  /* CONTENT AREA */
+  .content{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;}
+  .topbar{display:flex;align-items:center;justify-content:flex-end;gap:18px;padding:11px 20px;border-bottom:.5px solid var(--line2);flex:none;}
+  .topbar span{color:var(--txt2);font-size:12px;display:flex;align-items:center;gap:6px;}
+  .topbar .me{color:#c0c0c2;border:.5px solid #232325;padding:4px 10px;border-radius:6px;}
+
+  /* SPLIT */
+  .split{flex:1;min-height:0;display:flex;position:relative;}
+
+  /* LEFT SCROLL COLUMN */
+  .left{width:420px;flex:none;overflow-y:auto;padding-bottom:40px;min-width:280px;max-width:70%;}
+  .head{padding:18px 20px 0;}
+  .h1{font-size:21px;font-weight:500;margin:0 0 11px;}
+  .tabs{display:flex;gap:18px;border-bottom:.5px solid var(--line);}
+  .tab{color:var(--txt4);font-size:13px;padding-bottom:9px;cursor:default;}
+  .tab.active{color:var(--txt);border-bottom:2px solid var(--txt);}
+
+  /* DRAGGABLE DIVIDER */
+  .divider{width:5px;flex:none;cursor:col-resize;background:transparent;position:relative;z-index:10;transition:background .15s;}
+  .divider:hover,.divider.dragging{background:var(--accent);}
+  .divider::after{content:"";position:absolute;left:2px;top:0;bottom:0;width:1px;background:var(--line2);}
+  .divider:hover::after,.divider.dragging::after{background:var(--accent);}
+  .orient{padding:14px 20px 2px;}
+  .lead{font-size:14px;font-weight:500;margin:0 0 4px;}
+  .sub{color:var(--txt2);font-size:12px;line-height:1.5;margin:0;}
+
+  /* USE CASES */
+  .uclbl{color:var(--txt4);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:16px 20px 7px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 20px;}
+  .uc{cursor:pointer;text-align:left;background:var(--surf);border:.5px solid var(--line);border-radius:9px;padding:11px 12px;display:flex;flex-direction:column;gap:6px;transition:border-color .12s;}
+  .uc:hover{border-color:#34343a;}
+  .uc.active{border-color:#4a4a52;background:var(--surf2);}
+  .uc .ico{width:28px;height:28px;border-radius:7px;background:#1e1e22;display:flex;align-items:center;justify-content:center;color:var(--txt);font-size:14px;}
+  .uc.active .ico{background:#2a2a30;}
+  .uc .nm{color:var(--txt);font-size:12px;font-weight:500;}
+  .uc .ds{color:var(--txt3);font-size:10.5px;line-height:1.3;}
+  .uc.ai-card{background:#0e1116;border-color:#23303f;}
+  .uc.ai-card .ico{background:#16202c;color:var(--accent);}
+  .uc.ai-card.active{border-color:#3a6ea5;background:#101722;}
+  /* AI code card — hero use case, slight accent */
+  .uc[data-t="agent"]{border-color:#2a2030;}
+  .uc[data-t="agent"] .ico{background:#1e1624;color:#c084fc;}
+  .uc[data-t="agent"].active{border-color:#6b3fa0;background:#140f1e;}
+  .uc[data-t="agent"].active .ico{background:#2a1640;}
+  .aiform{display:none;margin:8px 20px 0;}
+  .aiform.show{display:flex;align-items:center;gap:9px;background:var(--surf);border:.5px solid var(--chip);border-radius:8px;padding:0 11px;}
+  .aiform svg.ic{color:var(--accent);font-size:15px;}
+  .aiform input{flex:1;background:none;border:none;outline:none;color:#e0e0e2;font-size:12px;padding:9px 0;font-family:var(--sans);}
+  .aiform button{cursor:pointer;color:#0b0b0c;background:var(--txt);border:none;font-size:11px;font-weight:500;padding:5px 11px;border-radius:5px;}
+
+  /* SETTINGS */
+  .slbl{color:var(--txt4);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:16px 20px 7px;display:flex;align-items:center;justify-content:space-between;}
+  .slbl .ctx{color:var(--txt5);font-size:9px;text-transform:none;letter-spacing:0;font-style:italic;}
+  .scfg{background:var(--surf);border:.5px solid var(--line);border-radius:9px;padding:12px;margin:0 20px;display:flex;flex-direction:column;gap:11px;}
+  .flbl{color:var(--txt3);font-size:10px;margin-bottom:4px;}
+  .seg{display:flex;gap:5px;}
+  .seg button{cursor:pointer;flex:1;text-align:center;font-size:11px;padding:5px 0;border-radius:5px;background:#101012;border:.5px solid var(--line);color:var(--txt2);}
+  .seg button.on{background:var(--chip);color:var(--txt);border-color:var(--chip);}
+  .frow{display:flex;gap:6px;}
+  .fld{flex:1;}
+  .fin{width:100%;background:#101012;border:.5px solid var(--chip);border-radius:5px;color:#d0d0d2;font-size:11px;padding:6px 8px;outline:none;font-family:var(--sans);transition:color .15s,border-color .15s;}
+  .fin:focus{border-color:#3a6ea5;color:#fff;}
+  .fin.changed{color:var(--green);}
+  select.fin{cursor:pointer;-webkit-appearance:none;}
+  .snote{color:var(--txt4);font-size:9px;line-height:1.45;border-top:.5px solid var(--line);padding-top:9px;}
+
+  /* ADVANCED SETTINGS */
+  .adv{background:var(--surf);border:.5px solid var(--line);border-radius:9px;overflow:hidden;margin:10px 20px 0;}
+  .advtitle{color:var(--txt3);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:9px 12px 7px;border-bottom:.5px solid var(--line);}
+  .opgrp{border-bottom:.5px solid var(--line);}
+  .opgrp:last-child{border-bottom:none;}
+  .ophdr{display:flex;align-items:center;padding:9px 12px;cursor:pointer;gap:7px;}
+  .ophdr svg.ic{font-size:13px;color:var(--txt3);flex:none;}
+  .opname{flex:1;font-size:11px;color:var(--txt2);}
+  .opchev{font-size:12px;color:var(--txt4);transition:transform .2s;flex:none;}
+  .opchev.open{transform:rotate(180deg);}
+  .optog{width:26px;height:15px;border-radius:99px;background:#2a2a2e;border:none;cursor:pointer;position:relative;transition:background .2s;flex:none;}
+  .optog::after{content:"";position:absolute;left:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#666;transition:all .2s;}
+  .optog.on{background:#1e5c3a;}
+  .optog.on::after{left:13px;background:var(--green);}
+  .opcontent{display:none;padding:10px 12px;border-top:.5px solid var(--line);background:#0f0f11;}
+  .opcontent.open{display:block;}
+  .opmethod{margin-bottom:11px;}
+  .opmethod:last-child{margin-bottom:0;}
+  .opmlbl{font-size:10px;color:var(--txt2);font-family:var(--mono);margin-bottom:3px;}
+  .opmdesc{font-size:9.5px;color:var(--txt4);margin-bottom:6px;line-height:1.4;}
+  .opfield{margin-bottom:5px;}
+  .opfield:last-child{margin-bottom:0;}
+  .opfield label{display:block;font-size:9.5px;color:var(--txt3);margin-bottom:3px;}
+
+  /* RIGHT FIXED PANE */
+  .right{flex:1;min-width:0;display:flex;flex-direction:column;padding:16px;gap:0;background:var(--bg);}
+
+  /* LIFECYCLE TRACK — top of right pane, full width */
+  .lifetrack{display:flex;align-items:flex-start;gap:0;padding:0 0 14px;}
+  .stage{display:flex;flex-direction:column;align-items:center;gap:5px;flex:none;width:56px;}
+  .stage .si{width:26px;height:26px;border-radius:7px;background:#141416;border:1px solid #2c2c30;display:flex;align-items:center;justify-content:center;color:var(--txt4);font-size:13px;transition:all .25s;}
+  .stage .sl{font-size:8.5px;color:var(--txt4);line-height:1.2;text-align:center;transition:color .25s;}
+  .stage .ms{font-size:8px;color:var(--green);height:9px;}
+  .stage.on .si{background:#16241b;border-color:var(--green);color:var(--green);box-shadow:0 0 0 3px rgba(123,216,143,.12);}
+  .stage.on .sl{color:var(--green);}
+  .stage.done .si{background:#16241b;border-color:#2e6b43;color:#5fae74;}
+  .stage.done .sl{color:var(--txt3);}
+  .stage.del.on .si{background:#1c1c1f;border-color:var(--txt3);color:var(--txt2);}
+  .stage.del.on .sl{color:var(--txt2);}
+  .conn{flex:1;height:2px;border-radius:2px;background:#1e1e22;position:relative;top:11px;overflow:hidden;}
+  .conn::after{content:"";position:absolute;left:0;top:0;height:100%;width:0;background:#2e6b43;transition:width .45s ease;}
+  .conn.fill::after{width:100%;}
+
+  /* #4 — output metadata row */
+  .meta{display:none;margin-top:8px;padding-top:8px;border-top:.5px solid #1a1a1d;display:none;gap:12px;flex-wrap:wrap;}
+  .meta.show{display:flex;}
+  .mtag{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--txt3);background:#101012;border:.5px solid #222226;padding:3px 8px;border-radius:99px;}
+  .mtag svg.ic{font-size:11px;}
+  .mtag.green{color:var(--green);border-color:#1e3d28;}
+  .mtag.blue{color:var(--accent);border-color:#1a2d42;}
+
+  /* #5 — copy for your project */
+  .snippet{display:none;margin:0 0 0;border-top:.5px solid #1a1a1d;}
+  .snippet.show{display:block;}
+  .sniphdr{display:flex;align-items:center;justify-content:space-between;padding:8px 13px;cursor:pointer;user-select:none;}
+  .sniphdr .sniptitle{color:var(--txt2);font-size:11px;display:flex;align-items:center;gap:7px;}
+  .sniphdr .sniptitle svg.ic{font-size:13px;color:var(--accent);}
+  .sniphdr .snippychev{font-size:12px;color:var(--txt4);transition:transform .2s;}
+  .sniphdr .snippychev.open{transform:rotate(180deg);}
+  .snipbody{display:none;padding:0 13px 12px;}
+  .snipbody.open{display:block;}
+  .sniplang{display:flex;gap:5px;margin-bottom:8px;}
+  .sniplang button{cursor:pointer;font-size:10.5px;padding:4px 10px;border-radius:5px;background:#101012;border:.5px solid var(--line);color:var(--txt2);}
+  .sniplang button.on{background:var(--chip);color:var(--txt);border-color:var(--chip);}
+  .snippre{background:#0a0a0c;border:.5px solid #1e1e22;border-radius:7px;padding:10px 12px;font-family:var(--mono);font-size:10.5px;line-height:1.7;color:#d6d6d9;position:relative;white-space:pre-wrap;}
+  .snipcopy{position:absolute;top:7px;right:8px;cursor:pointer;background:none;border:none;color:var(--txt3);font-size:11px;display:flex;align-items:center;gap:4px;}
+  .snipcopy:hover{color:var(--txt2);}
+  .snipcopy svg.ic{font-size:13px;}
+  .ide{background:#0d0d0f;border:.5px solid #232325;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;}
+  .idebar{display:flex;align-items:center;padding:9px 13px;border-bottom:.5px solid var(--line);position:relative;flex:none;}
+  .lights{display:flex;gap:6px;}
+  .lights i{width:10px;height:10px;border-radius:50%;display:block;}
+  .idetitle{position:absolute;left:0;right:0;text-align:center;color:var(--txt3);font-size:12px;pointer-events:none;}
+  .ideact{margin-left:auto;display:flex;align-items:center;gap:9px;z-index:1;}
+  .statuschip{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--txt2);background:#141416;border:.5px solid #232325;padding:3px 8px;border-radius:99px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--txt4);flex:none;transition:background .2s;}
+  .dot.creating{background:var(--amber);animation:pulse 1s infinite;}
+  .dot.running{background:var(--green);animation:pulse 1s infinite;}
+  .dot.gone{background:var(--txt5);}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .share{cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--txt2);font-size:11px;background:none;border:none;}
+  .run{cursor:pointer;background:var(--txt);color:#0b0b0c;font-size:11.5px;font-weight:500;padding:5px 13px;border-radius:6px;display:flex;align-items:center;gap:5px;border:none;}
+  .run svg.ic{font-size:12px;}
+  .promise{color:var(--txt3);font-size:11px;padding:5px 13px 3px;flex:none;}
+  .code{margin:0;padding:11px 13px;flex:1;color:#d6d6d9;background:none;font-family:var(--mono);font-size:11.5px;line-height:1.6;white-space:pre-wrap;outline:none;overflow-y:auto;}
+  .hl{background:rgba(123,216,143,.13);border-radius:3px;transition:background .6s;}
+
+  /* RESIZER between the two IDE windows */
+  .resizer{height:4px;background:transparent;cursor:row-resize;flex:none;display:flex;align-items:center;justify-content:center;}
+  .resizer::after{content:"";width:32px;height:2px;background:#2a2a2d;border-radius:2px;}
+
+  /* OUTPUT IDE */
+  .outidebar{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-bottom:.5px solid var(--line);flex:none;}
+  .outtitle{color:var(--txt3);font-size:12px;}
+  .outstatus{font-size:10px;color:var(--txt3);background:#101012;border:.5px solid var(--line);padding:2px 8px;border-radius:99px;}
+  .outwrap{flex:1;overflow-y:auto;padding:10px 13px;background:#070708;}
+  .out{font-family:var(--mono);font-size:11px;line-height:1.8;color:#b9b9bd;}
+  .out a{color:var(--accent);}
+
+  /* IDE container — flex column for proportional split */
+  .idestack{flex:1;min-height:0;display:flex;flex-direction:column;gap:0;}
+  .code-ide{flex:1.4;min-height:0;display:flex;flex-direction:column;}
+  .out-ide{flex:1;min-height:0;display:flex;flex-direction:column;background:#0d0d0f;border:.5px solid #232325;border-radius:10px;overflow:hidden;margin-top:8px;}
+
+  /* ANON MODE TOGGLE in topbar */
+  .modetog{display:flex;align-items:center;gap:8px;padding:4px 10px;border-radius:6px;border:.5px solid var(--line);cursor:pointer;user-select:none;margin-right:8px;}
+  .modetog .ml{font-size:11px;color:var(--txt3);}
+  .modetog .mval{font-size:11px;font-weight:500;}
+  .modetog .mval.anon{color:var(--amber);}
+  .modetog .mval.auth{color:var(--green);}
+
+  /* ANON BANNER — below topbar */
+  .anonbanner{display:none;align-items:center;justify-content:space-between;padding:7px 20px;background:#1a1508;border-bottom:.5px solid #3a2e0a;}
+  .anonbanner.show{display:flex;}
+  .anonbanner .bl{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#c8a84b;}
+  .anonbanner .bl svg.ic{font-size:14px;}
+  .runcount{font-size:11px;color:#a08030;display:flex;align-items:center;gap:6px;}
+  .runcountpips{display:flex;gap:3px;}
+  .pip{width:8px;height:8px;border-radius:50%;background:#3a2e0a;border:.5px solid #5a4a1a;transition:background .2s,border-color .2s;}
+  .pip.used{background:var(--amber);border-color:var(--amber);}
+  .anonbanner .signup-inline{cursor:pointer;font-size:11px;color:var(--accent);background:none;border:.5px solid #1a3a5c;padding:4px 10px;border-radius:5px;}
+
+  /* POST-RUN SIGN-UP PROMPT */
+  .signup{display:none;margin:0;border-top:.5px solid #1a1a1d;}
+  .signup.show{display:block;}
+  .signupinner{margin:12px 13px;background:linear-gradient(135deg,#0e1520 0%,#0a1a12 100%);border:.5px solid #1e3040;border-radius:9px;padding:14px 16px;}
+  .signupinner .sh{font-size:13px;font-weight:500;color:var(--txt);margin:0 0 4px;}
+  .signupinner .ss{font-size:11.5px;color:var(--txt2);margin:0 0 12px;line-height:1.5;}
+  .signupbtns{display:flex;gap:8px;align-items:center;}
+  .signupbtns .primary{cursor:pointer;background:var(--accent);color:#070708;font-size:12px;font-weight:500;padding:7px 16px;border-radius:6px;border:none;}
+  .signupbtns .secondary{cursor:pointer;background:none;color:var(--txt2);font-size:11.5px;padding:7px 12px;border-radius:6px;border:.5px solid var(--line);}
+  .signupbtns .secondary:hover{color:var(--txt);border-color:var(--txt3);}
+  .runsremaining{font-size:10.5px;color:var(--txt4);margin-left:auto;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- LEFT NAV -->
+  <nav class="nav">
+    <div class="brand"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg>Daytona</div>
+    <div class="org"><span>Personal</span><svg class="ic" style="font-size:12px;color:var(--txt3)" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg></div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Search</div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg>Sandboxes</div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3"/></svg>Snapshots</div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/></svg>Registries</div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg>Volumes</div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Audit Logs</div>
+    <div class="ndiv"></div>
+    <div class="nl active"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="3"/><path d="M8 12h2M9 11v2M15 11.5h.01M17 13.5h.01"/></svg>Playground</div>
+    <div class="ndiv"></div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="8" cy="13" r="4"/><path d="M11 11l8-8M16 5l3 3"/></svg>API Keys</div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M6 16V9a5 5 0 015-5h5"/></svg>Webhooks</div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 018 8"/></svg>Limits</div>
+    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>Settings</div>
+    <div class="ver">v0.187.0</div>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <div class="topbar">
+      <span><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>Docs</span>
+      <span><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg>Support</span>
+      <div class="modetog" id="modetog" title="Toggle between signed-in and anonymous mode for demo">
+        <span class="ml">Viewing as:</span>
+        <span class="mval auth" id="modeval">Signed in</span>
+        <svg class="ic" style="font-size:12px;color:var(--txt4)" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+      </div>
+      <span class="me" id="userchip"><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>Emanuel L.</span>
+    </div>
+    <div class="anonbanner" id="anonbanner">
+      <div class="bl">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+        You're trying Daytona without an account. 5 free runs — no sign-up needed.
+      </div>
+      <div class="runcount">
+        <span>Runs left:</span>
+        <div class="runcountpips" id="pips">
+          <div class="pip" id="pip0"></div><div class="pip" id="pip1"></div><div class="pip" id="pip2"></div><div class="pip" id="pip3"></div><div class="pip" id="pip4"></div>
+        </div>
+      </div>
+      <button class="signup-inline" id="signupbanner">Create free account →</button>
+    </div>
+
+    <div class="split">
+
+      <!-- LEFT: scrollable content -->
+      <div class="left">
+        <div class="head">
+          <h1 class="h1">Playground</h1>
+          <div class="tabs"><span class="tab active">Sandbox</span><span class="tab">Terminal</span><span class="tab">VNC</span></div>
+        </div>
+        <div class="orient">
+          <p class="lead">Run AI Code safely.</p>
+          <p class="sub">AI agents write code you haven't reviewed. Daytona gives each agent an isolated computer — spins up in under 100ms, executes anything, leaves nothing behind.</p>
+        </div>
+        <div class="uclbl">Use cases</div>
+        <div class="grid" id="grid">
+          <button class="uc active" data-t="hello"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg></div><div class="nm">Hello sandbox</div><div class="ds">Does it really work?</div></button>
+          <button class="uc" data-t="agent"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 6.5-7 9-4-2.5-7-5-7-9V6z"/><path d="M9.5 12l1.8 1.8 3.2-3.6"/></svg></div><div class="nm">Run AI-generated code</div><div class="ds">Safe, isolated, no risk</div></button>
+          <button class="uc" data-t="server"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13 0 16M12 4c-2.5 2.5-2.5 13 0 16"/></svg></div><div class="nm">Web server + live URL</div><div class="ds">Reach it from anywhere</div></button>
+          <button class="uc" data-t="repo"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M8.3 7.2L16 8.7"/></svg></div><div class="nm">Clone &amp; run a repo</div><div class="ds">Bring your own code</div></button>
+          <button class="uc" data-t="snap"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3"/></svg></div><div class="nm">Snapshots &amp; persistence</div><div class="ds">State that survives</div></button>
+          <button class="uc ai-card" data-t="ai"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></div><div class="nm">Describe your own</div><div class="ds">Describe what you need</div></button>
+        </div>
+        <div class="aiform" id="aiform">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>
+          <input id="ai" placeholder="e.g. clone my repo, install deps, run the test suite" style="flex:1;background:none;border:none;outline:none;color:#e0e0e2;font-size:12px;padding:9px 0;font-family:var(--sans);">
+          <button id="aigo" style="cursor:pointer;color:#0b0b0c;background:var(--txt);border:none;font-size:11px;font-weight:500;padding:5px 11px;border-radius:5px;">Generate</button>
+        </div>
+
+        <div class="slbl">Sandbox settings <span class="ctx" id="setctx">hello sandbox</span></div>
+        <div class="scfg">
+          <div><div class="flbl">Language</div><div class="seg" id="langseg"><button class="on" data-l="python">Python</button><button data-l="ts">TypeScript</button></div></div>
+          <div class="frow">
+            <div class="fld"><div class="flbl">vCPU</div><input class="fin" id="f-cpu" type="number" min="1" max="8" value="1"></div>
+            <div class="fld"><div class="flbl">Memory (GiB)</div><input class="fin" id="f-mem" type="number" min="1" max="16" value="1"></div>
+          </div>
+          <div class="frow">
+            <div class="fld"><div class="flbl">Storage (GiB)</div><input class="fin" id="f-disk" type="number" min="1" max="50" value="1"></div>
+            <div class="fld"><div class="flbl">Auto-delete</div>
+              <select class="fin" id="f-del">
+                <option value="0">immediately</option>
+                <option value="5">5 min idle</option>
+                <option value="15">15 min idle</option>
+                <option value="-1">session end</option>
+              </select>
+            </div>
+          </div>
+          <div class="snote" id="setnote">Minimal resources — this one just runs and exits.</div>
+        </div>
+
+        <div class="adv">
+          <div class="advtitle">Advanced settings</div>
+          <div class="opgrp">
+            <div class="ophdr" onclick="toggleOp('fs')">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+              <span class="opname">File System</span>
+              <svg class="ic opchev" id="chev-fs" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+              <button class="optog" id="tog-fs" onclick="event.stopPropagation();toggleTog('fs')"></button>
+            </div>
+            <div class="opcontent" id="op-fs">
+              <div class="opmethod"><div class="opmlbl">createFolder()</div><div class="opmdesc">Creates a new directory in the sandbox</div>
+                <div class="opfield"><label>Folder location *</label><input class="fin" value="workspace/new-dir" oninput="manualEdit()"></div>
+                <div class="opfield"><label>Permissions *</label><input class="fin" value="755" oninput="manualEdit()"></div>
+              </div>
+              <div class="opmethod"><div class="opmlbl">listFiles()</div><div class="opmdesc">Lists files and directories at a path</div>
+                <div class="opfield"><label>Directory location *</label><input class="fin" value="workspace/new-dir" oninput="manualEdit()"></div>
+              </div>
+              <div class="opmethod"><div class="opmlbl">deleteFile()</div><div class="opmdesc">Deletes a file from the sandbox</div>
+                <div class="opfield"><label>File location *</label><input class="fin" value="workspace/new-dir" oninput="manualEdit()"></div>
+              </div>
+            </div>
+          </div>
+          <div class="opgrp">
+            <div class="ophdr" onclick="toggleOp('git')">
+              <svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M8.3 7.2L16 8.7"/></svg>
+              <span class="opname">Git Operations</span>
+              <svg class="ic opchev" id="chev-git" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+              <button class="optog" id="tog-git" onclick="event.stopPropagation();toggleTog('git')"></button>
+            </div>
+            <div class="opcontent" id="op-git">
+              <div class="opmethod"><div class="opmlbl">clone()</div><div class="opmdesc">Clones a Git repository into the sandbox</div>
+                <div class="opfield"><label>URL *</label><input class="fin" value="https://github.com/octocat/Hello-World" oninput="manualEdit()"></div>
+                <div class="opfield"><label>Destination *</label><input class="fin" value="workspace/repo" oninput="manualEdit()"></div>
+                <div class="opfield"><label>Branch</label><input class="fin" placeholder="Specific branch" oninput="manualEdit()"></div>
+                <div class="opfield"><label>Username</label><input class="fin" placeholder="Git username" oninput="manualEdit()"></div>
+              </div>
+              <div class="opmethod"><div class="opmlbl">status()</div><div class="opmdesc">Gets current Git repository status</div>
+                <div class="opfield"><label>Repo location *</label><input class="fin" value="workspace/repo" oninput="manualEdit()"></div>
+              </div>
+              <div class="opmethod"><div class="opmlbl">branches()</div><div class="opmdesc">Lists branches in the repository</div>
+                <div class="opfield"><label>Repo location *</label><input class="fin" value="workspace/repo" oninput="manualEdit()"></div>
+              </div>
+            </div>
+          </div>
+          <div class="opgrp">
+            <div class="ophdr" onclick="toggleOp('proc')">
+              <svg class="ic" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span class="opname">Process &amp; Code Execution</span>
+              <svg class="ic opchev" id="chev-proc" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+              <button class="optog" id="tog-proc" onclick="event.stopPropagation();toggleTog('proc')"></button>
+            </div>
+            <div class="opcontent" id="op-proc">
+              <div class="opmethod"><div class="opmlbl">codeRun()</div><div class="opmdesc">Executes code using the appropriate runtime</div>
+                <div class="opfield"><label>Code to execute *</label>
+                  <textarea class="fin" rows="3" style="resize:vertical;font-family:var(--mono)" oninput="manualEdit()">def greet(name):
+    return f"Hello, {name}!"
+print(greet("Daytona"))</textarea>
+                </div>
+              </div>
+              <div class="opmethod"><div class="opmlbl">executeCommand()</div><div class="opmdesc">Executes a shell command in the sandbox</div>
+                <div class="opfield"><label>Shell command *</label><input class="fin" value="ls -la" style="font-family:var(--mono)" oninput="manualEdit()"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: fixed pane -->
+      <div class="divider" id="divider"></div>
+      <div class="right">
+
+        <!-- LIFECYCLE TRACK — spans full right width -->
+        <div class="lifetrack">
+          <div class="stage" data-stage="create"><div class="si"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg></div><div class="sl">Set up</div><div class="ms" id="ms-create"></div></div>
+          <div class="conn" data-seg="0"></div>
+          <div class="stage" data-stage="run"><div class="si"><svg class="ic" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg></div><div class="sl">Run code</div><div class="ms"></div></div>
+          <div class="conn" data-seg="1"></div>
+          <div class="stage" data-stage="result"><div class="si"><svg class="ic" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="sl">Result</div><div class="ms"></div></div>
+          <div class="conn" data-seg="2"></div>
+          <div class="stage del" data-stage="del"><div class="si"><svg class="ic" viewBox="0 0 24 24"><path d="M5 7h14M9 7V5h6v2M7 7l1 13h8l1-13"/></svg></div><div class="sl" id="del-label">Delete</div><div class="ms"></div></div>
+        </div>
+
+        <!-- IDE STACK -->
+        <div class="idestack">
+
+          <!-- SANDBOX CODE window -->
+          <div class="ide code-ide">
+            <div class="idebar">
+              <div class="lights"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+              <div class="idetitle">Sandbox Code</div>
+              <div class="ideact">
+                <button class="share" id="copybtn" title="Copy"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span id="copylabel"></span></button>
+                <button class="share" id="sharebtn"><svg class="ic" viewBox="0 0 24 24"><path d="M9 13a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7L10 6"/><path d="M15 11a4 4 0 00-5.7 0l-3 3A4 4 0 0012 19.7L14 18"/></svg><span id="sharelabel">Share</span></button>
+                <span class="statuschip"><span class="dot" id="dot"></span><span id="chiptext">No sandbox</span></span>
+                <button id="fwdbtn" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;color:#0b0b0c;background:var(--txt);font-size:11px;font-weight:500;padding:5px 12px;border-radius:6px;white-space:nowrap;"><svg class="ic" id="fwdicon" style="font-size:12px" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg><span id="fwdlabel">Save as sandbox</span></button>
+                <button class="run" id="runbtn"><svg class="ic" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>Run</button>
+              </div>
+            </div>
+            <div class="promise" id="promise"></div>
+            <pre class="code" id="code" contenteditable="true" spellcheck="false" oninput="manualEdit()"></pre>
+          </div>
+
+          <!-- SANDBOX SESSION window -->
+          <div class="out-ide">
+            <div class="outidebar">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="lights"><i style="background:#3a3a3e"></i><i style="background:#3a3a3e"></i><i style="background:#3a3a3e"></i></div>
+                <span class="outtitle">Sandbox Session</span>
+              </div>
+              <span class="outstatus" id="status">Idle</span>
+            </div>
+            <div class="outwrap">
+              <div class="out" id="out"><span style="color:var(--txt5)">Press Run — your code executes in a real sandbox.</span></div>
+              <!-- #4 metadata row -->
+              <div class="meta" id="meta">
+                <span class="mtag green"><svg class="ic" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span id="meta-time">87ms</span></span>
+                <span class="mtag green"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 6.5-7 9-4-2.5-7-5-7-9V6z"/></svg>isolated</span>
+                <span class="mtag" id="meta-del"><svg class="ic" viewBox="0 0 24 24"><path d="M5 7h14M9 7V5h6v2M7 7l1 13h8l1-13"/></svg><span id="meta-del-txt">auto-deleted</span></span>
+                <span class="mtag blue"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg>0 traces left</span>
+              </div>
+            </div>
+            <!-- #5 copy for your project -->
+            <div class="snippet" id="snippet">              <div class="sniphdr" id="sniphdr">
+                <span class="sniptitle"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>Use this in your project</span>
+                <svg class="ic snippychev" id="snippychev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="snipbody" id="snipbody">
+                <div class="sniplang" id="sniplang">
+                  <button class="on" data-sl="python">Python</button>
+                  <button data-sl="ts">TypeScript</button>
+                  <button data-sl="rest">REST</button>
+                </div>
+                <div class="snippre" id="snippre"><button class="snipcopy" id="snipcopy"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span id="snipcopylbl">Copy</span></button><span id="snipcode"></span></div>
+              </div>
+            </div>
+            <!-- SIGN-UP PROMPT — anon mode only, post-run -->
+            <div class="signup" id="signup">
+              <div class="signupinner">
+                <p class="sh">Ready to use this in your project?</p>
+                <p class="ss">You've seen it work. Create a free account to save sandboxes, remove the run limit, and integrate the SDK into your own code.</p>
+                <div class="signupbtns">
+                  <button class="primary" id="signupbtn">Create free account</button>
+                  <button class="secondary" id="signinbtn">Sign in</button>
+                  <span class="runsremaining" id="runsremaining"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const T={
+ hello:{p:"A real computer — created, used and gone in under 100ms.",
+  cfg:{cpu:1,mem:1,disk:1,del:0},note:"Minimal resources — this one just runs and exits.",ctx:"hello sandbox",
+  body:()=>`result = sandbox.process.code_run('print("Hello from my sandbox")')\nprint(result.output)\n\nsandbox.delete()`,
+  s:[[300,'<span style="color:#e8e8ea">Hello from my sandbox</span>'],[400,'<span style="color:#7a7a7e">Sandbox deleted.</span>']]},
+ agent:{p:"An LLM wrote this. You haven't reviewed it. Daytona runs it safely so you don't have to worry.",
+  cfg:{cpu:2,mem:4,disk:3,del:0},note:"Isolated, disposable — the AI gets a computer it can't escape from.",ctx:"AI-generated code",
+  body:()=>`# Code generated by an LLM — not reviewed by a human\nagent_code = llm.generate("analyze this dataset and flag anomalies")\n\n# Daytona runs it in an isolated sandbox\n# It cannot access your files, env vars, or network\nsandbox = daytona.create()\nresult = sandbox.process.code_run(agent_code)\n\nagent.observe(result.output)\nsandbox.delete()  # nothing left behind`,
+  s:[[300,'<span style="color:#7a7a7e">LLM generated 31 lines of code…</span>'],[400,'<span style="color:#7a7a7e">Running in isolated sandbox · no host access…</span>'],[500,'<span style="color:#e8e8ea">rows: 12,440 · anomalies: 17 · report saved</span>'],[400,'<span style="color:#7a7a7e">Sandbox deleted · nothing persisted · host untouched.</span>']]},
+ server:{p:"Your sandbox is a real computer on the internet.",
+  cfg:{cpu:1,mem:1,disk:2,del:15},note:"Kept alive 15 min so you can open the preview URL.",ctx:"web server",
+  body:()=>`sandbox.fs.upload_file("server.py", my_server)\nsandbox.process.exec("python server.py &")\n\nurl = sandbox.get_preview_link(3000)\nprint(url)`,
+  s:[[300,'<span style="color:#7a7a7e">Starting server on :3000…</span>'],[480,'<span style="color:#e8e8ea">Live at <a href="#" onclick="return false">3000-amused-otter.daytona.work ↗</a></span>']]},
+ repo:{p:"Bring real-world code in and run it safely.",
+  cfg:{cpu:2,mem:2,disk:5,del:5},note:"More CPU, memory and disk for a real build.",ctx:"clone & run",
+  body:()=>`sandbox.git.clone("https://github.com/you/project", "app")\nsandbox.process.exec("cd app && pip install -r requirements.txt")\n\nresult = sandbox.process.exec("cd app && pytest")\nprint(result.output)`,
+  s:[[400,'<span style="color:#7a7a7e">Cloning · installing deps…</span>'],[660,'<span style="color:#e8e8ea">===== 14 passed in 2.31s =====</span>']]},
+ snap:{p:"Sandboxes can remember — state survives across lifetimes.",
+  cfg:{cpu:1,mem:1,disk:3,del:-1},note:"State preserved in a snapshot; next sandbox boots from it instantly.",ctx:"snapshots",
+  body:()=>`sandbox = daytona.create()\nsandbox.fs.upload_file("state.json", data)\n\n# Freeze the environment\nsnapshot = sandbox.snapshot()\nsandbox.delete()\n\n# Restore into a new sandbox instantly\nrestored = daytona.create(snapshot=snapshot)\nprint(restored.fs.read("state.json"))`,
+  s:[[300,'<span style="color:#7a7a7e">state.json written · snapshot created…</span>'],[400,'<span style="color:#7a7a7e">Sandbox deleted.</span>'],[500,'<span style="color:#7bd88f">✓ New sandbox restored from snapshot · 92ms</span>'],[300,'<span style="color:#e8e8ea">state.json found · contents intact</span>']]}
+};
+
+let cur='hello',running=false,lang='python',highlightTimer=null,isManual=false;
+const $=id=>document.getElementById(id);
+const code=$('code'),out=$('out'),status=$('status'),promise=$('promise');
+const inCpu=$('f-cpu'),inMem=$('f-mem'),inDisk=$('f-disk'),inDel=$('f-del');
+
+function delComment(v){if(v==0)return "deleted immediately";if(v==-1)return "deleted when session ends";return "kept alive, deleted after "+v+"min idle";}
+function buildCode(highlight){
+ const cpu=+inCpu.value,mem=+inMem.value,disk=+inDisk.value,del=inDel.value;
+ const langStr=lang==='python'?'python':'typescript';
+ const hl=s=>highlight?'<span class="hl">'+s+'</span>':s;
+ const header=`from daytona import Daytona, Resources, CreateSandboxParams\n\ndaytona = Daytona()\n\nparams = CreateSandboxParams(\n    language="${langStr}",\n    resources=Resources(`+hl(`cpu=${cpu}, memory=${mem}, disk=${disk}`)+`),\n    `+hl(`auto_delete_interval=${del==='-1'?0:del}`)+`,  # ${delComment(del)}\n)\nsandbox = daytona.create(params)\n\n`;
+ code.innerHTML=header+T[cur].body();
+ if(highlight){clearTimeout(highlightTimer);highlightTimer=setTimeout(()=>buildCode(false),650);}
+}
+function applyCfg(k){
+ const c=T[k].cfg;
+ inCpu.value=c.cpu;inMem.value=c.mem;inDisk.value=c.disk;inDel.value=String(c.del);
+ $('setnote').textContent=T[k].note;$('setctx').textContent=T[k].ctx;
+ inCpu.classList.toggle('changed',c.cpu!==1);inMem.classList.toggle('changed',c.mem!==1);
+ inDisk.classList.toggle('changed',c.disk!==1);inDel.classList.toggle('changed',c.del!==0);
+}
+function manualEdit(){
+ if(isManual)return;isManual=true;
+ document.querySelectorAll('.uc').forEach(b=>b.classList.remove('active'));
+ $('setctx').textContent='custom';
+ [inCpu,inMem,inDisk,inDel].forEach(el=>el.classList.remove('changed'));
+}
+function setChip(state){
+ $('dot').className='dot'+(state?' '+state:'');
+ $('chiptext').textContent={'':"No sandbox",creating:"Creating…",running:"Running",done:"Stopped",gone:"Deleted"}[state||''];
+}
+function resetLife(){
+ document.querySelectorAll('.stage').forEach(s=>s.classList.remove('on','done'));
+ document.querySelectorAll('.conn').forEach(s=>s.classList.remove('fill'));
+ $('ms-create').textContent='';
+ const v=inDel.value;
+ $('del-label').textContent=v==='-1'?'End session':(v==='0'?'Delete':'Auto-delete');
+}
+function stageOn(n){document.querySelector('.stage[data-stage="'+n+'"]').classList.add('on');}
+function stageDone(n,seg){
+ const s=document.querySelector('.stage[data-stage="'+n+'"]');
+ s.classList.remove('on');s.classList.add('done');
+ if(seg!=null)document.querySelector('.conn[data-seg="'+seg+'"]').classList.add('fill');
+}
+function setFwdBtn(state){
+ const btn=$('fwdbtn'),lbl=$('fwdlabel'),ico=$('fwdicon');
+ if(state==='saved'){lbl.textContent='Saved ✓';btn.style.background='#1e5c3a';btn.style.color='var(--green)';setTimeout(()=>{lbl.textContent='Save as sandbox';btn.style.background='var(--txt)';btn.style.color='#0b0b0c';},1800);}
+ else if(state==='terminal'){lbl.textContent='Open in Terminal →';ico.innerHTML='<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>';btn.style.background='#1a3a5c';btn.style.color='var(--accent)';}
+ else{lbl.textContent='Save as sandbox';ico.innerHTML='<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/>';btn.style.background='var(--txt)';btn.style.color='#0b0b0c';}
+}
+function sel(k){
+ if(running)return;
+ document.querySelectorAll('.uc').forEach(b=>b.classList.toggle('active',b.dataset.t===k));
+ if(k==='ai'){$('aiform').classList.add('show');$('ai').focus();return;}
+ $('aiform').classList.remove('show');
+ cur=k;isManual=false;
+ promise.textContent=T[k].p;
+ out.innerHTML='<span style="color:var(--txt5)">Press Run — your code executes in a real sandbox.</span>';
+ status.textContent='Idle';status.style.color='var(--txt3)';
+ applyCfg(k);buildCode(false);resetLife();setChip('');setFwdBtn('default');hidePostRun();
+}
+document.querySelectorAll('.uc').forEach(b=>b.addEventListener('click',()=>sel(b.dataset.t)));
+[inCpu,inMem,inDisk].forEach(el=>el.addEventListener('input',()=>{manualEdit();buildCode(true);}));
+inDel.addEventListener('change',()=>{manualEdit();buildCode(true);resetLife();});
+$('langseg').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+ $('langseg').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+ b.classList.add('on');lang=b.dataset.l;buildCode(true);
+}));
+$('runbtn').addEventListener('click',()=>{
+ if(running)return;running=true;out.innerHTML='';
+ resetLife();status.textContent='Running';status.style.color='var(--amber)';
+ hidePostRun();
+ const delV=inDel.value;
+ setChip('creating');stageOn('create');
+ setTimeout(()=>{$('ms-create').textContent='87ms';stageDone('create',0);setChip('running');stageOn('run');},600);
+ let d=0;T[cur].s.forEach((st,i)=>{d+=st[0];setTimeout(()=>{const l=document.createElement('div');l.innerHTML=st[1];out.appendChild(l);},d);});
+ setTimeout(()=>{stageDone('run',1);stageOn('result');},d*0.6);
+ setTimeout(()=>{
+   stageDone('result',2);status.textContent='Completed';status.style.color='var(--green)';running=false;
+   setFwdBtn('terminal');
+   showPostRun(delV);
+   if(delV==='0'||delV==='-1'){stageOn('del');setTimeout(()=>{stageDone('del');setChip('gone');},500);}
+   else{setChip('done');}
+ },d+150);
+});
+$('fwdbtn').addEventListener('click',()=>{
+ if($('fwdlabel').textContent==='Open in Terminal →'){alert('→ Opens Terminal tab with this sandbox active');return;}
+ setFwdBtn('saved');
+});
+$('copybtn').addEventListener('click',()=>{
+ const text=code.innerText||code.textContent;
+ navigator.clipboard.writeText(text).then(()=>{$('copylabel').textContent=' Copied';setTimeout(()=>$('copylabel').textContent='',1500);});
+});
+$('sharebtn').addEventListener('click',()=>{$('sharelabel').textContent='Copied';setTimeout(()=>$('sharelabel').textContent='Share',1500);});
+$('aigo').addEventListener('click',()=>{
+ const v=$('ai').value.trim();if(!v)return;
+ out.innerHTML='<span style="color:#7a7a7e">Generating for: "'+v.replace(/</g,'&lt;')+'"…</span>';
+ setTimeout(()=>{cur='repo';$('aiform').classList.remove('show');isManual=false;
+   document.querySelectorAll('.uc').forEach(b=>b.classList.remove('active'));
+   promise.textContent='Generated from your description.';
+   applyCfg('repo');buildCode(true);resetLife();setChip('');
+   out.innerHTML='<span style="color:#e8e8ea">Code generated — review it, then press Run.</span>';
+ },1000);
+});
+function toggleOp(id){const el=$('op-'+id),chev=$('chev-'+id);const open=el.classList.toggle('open');chev.classList.toggle('open',open);}
+function toggleTog(id){const tog=$('tog-'+id);tog.classList.toggle('on');if(tog.classList.contains('on')){$('op-'+id).classList.add('open');$('chev-'+id).classList.add('open');}}
+window.toggleOp=toggleOp;window.toggleTog=toggleTog;
+const SNIP={
+ hello:{
+  python:`from daytona import Daytona\n\ndaytona = Daytona()\nsandbox = daytona.create()\nresult = sandbox.process.code_run('print("hello")')\nprint(result.output)\nsandbox.delete()`,
+  ts:`import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create()\nconst result = await sandbox.process.codeRun('console.log("hello")')\nconsole.log(result.output)\nawait sandbox.delete()`,
+  rest:`curl -X POST https://api.daytona.io/v1/sandbox \\\n  -H "Authorization: Bearer $DAYTONA_API_KEY" \\\n  -d '{"language":"python"}'\n\n# Then POST /v1/sandbox/{id}/run with your code`
+ },
+ server:{
+  python:`sandbox = daytona.create()\nsandbox.fs.upload_file("server.py", code)\nsandbox.process.exec("python server.py &")\nurl = sandbox.get_preview_link(3000)\nprint(url)  # share this URL`,
+  ts:`const sandbox = await daytona.create()\nawait sandbox.fs.uploadFile('server.py', code)\nawait sandbox.process.exec('node server.js &')\nconst url = sandbox.getPreviewLink(3000)\nconsole.log(url)`,
+  rest:`# Create sandbox, upload file, exec, then:\ncurl https://api.daytona.io/v1/sandbox/{id}/preview/3000`
+ },
+ repo:{
+  python:`sandbox = daytona.create()\nsandbox.git.clone("https://github.com/you/repo", "app")\nsandbox.process.exec("cd app && pip install -r requirements.txt")\nresult = sandbox.process.exec("cd app && pytest")\nprint(result.output)`,
+  ts:`const sandbox = await daytona.create()\nawait sandbox.git.clone('https://github.com/you/repo', 'app')\nawait sandbox.process.exec('cd app && npm install')\nconst result = await sandbox.process.exec('cd app && npm test')\nconsole.log(result.output)`,
+  rest:`# Clone endpoint:\nPOST /v1/sandbox/{id}/git/clone\n{"url":"https://github.com/you/repo","dest":"app"}`
+ },
+ agent:{
+  python:`agent_code = llm.generate(prompt)\n\nsandbox = daytona.create()\nresult = sandbox.process.code_run(agent_code)\n\nagent.observe(result.output)\nsandbox.delete()  # nothing left behind`,
+  ts:`const agentCode = await llm.generate(prompt)\n\nconst sandbox = await daytona.create()\nconst result = await sandbox.process.codeRun(agentCode)\n\nagent.observe(result.output)\nawait sandbox.delete()`,
+  rest:`POST /v1/sandbox          # create isolated env\nPOST /v1/sandbox/{id}/run  # execute AI-generated code\nDELETE /v1/sandbox/{id}    # clean up, nothing persists`
+ },
+ snap:{
+  python:`sandbox = daytona.create()\nsandbox.fs.upload_file("state.json", data)\n\nsnapshot = sandbox.snapshot()\nsandbox.delete()\n\nrestored = daytona.create(snapshot=snapshot)\nprint(restored.fs.read("state.json"))`,
+  ts:`const sandbox = await daytona.create()\nawait sandbox.fs.uploadFile('state.json', data)\n\nconst snapshot = await sandbox.snapshot()\nawait sandbox.delete()\n\nconst restored = await daytona.create({ snapshot })\nconsole.log(await restored.fs.read('state.json'))`,
+  rest:`POST /v1/sandbox/{id}/snapshot\nDELETE /v1/sandbox/{id}\nPOST /v1/sandbox {"snapshot": "{snapshot_id}"}`
+ }
+};
+let snipLang='python', snipOpen=false;
+function updateSnip(){
+ const s=SNIP[cur]||SNIP.hello;
+ $('snipcode').textContent=s[snipLang]||s.python;
+}
+function showPostRun(delV){
+ // #4 metadata
+ const meta=$('meta');
+ const times={hello:'87ms',server:'91ms',repo:'85ms',agent:'88ms',snap:'92ms'};
+ $('meta-time').textContent=times[cur]||'88ms';
+ const deleted=(delV==='0'||delV==='-1');
+ const delTag=$('meta-del'), delTxt=$('meta-del-txt');
+ delTxt.textContent=deleted?'auto-deleted':'kept alive';
+ delTag.classList.toggle('green',deleted);
+ meta.classList.add('show');
+ // #5 snippet — only for signed-in
+ if(!anonMode){
+   updateSnip();
+   $('snippet').classList.add('show');
+   if(!snipOpen){$('snipbody').classList.add('open');$('snippychev').classList.add('open');snipOpen=true;}
+ }
+ // anon sign-up prompt
+ if(anonMode){
+   anonRuns++; updatePips();
+   $('signup').classList.add('show');
+   const left=maxRuns-anonRuns;
+   if(left<=0){
+     // disable run button
+     $('runbtn').style.opacity='0.4';
+     $('runbtn').style.pointerEvents='none';
+     $('signup').querySelector('.sh').textContent="You've used all 5 free runs.";
+     $('signup').querySelector('.ss').textContent="Create a free account to keep going — no credit card needed.";
+   }
+ }
+}
+function hidePostRun(){
+ $('meta').classList.remove('show');
+ $('snippet').classList.remove('show');
+ $('signup').classList.remove('show');
+}
+
+// ANONYMOUS MODE
+let anonMode=false, anonRuns=0, maxRuns=5;
+function setMode(anon){
+ anonMode=anon; anonRuns=0;
+ $('modeval').textContent=anon?'Anonymous':'Signed in';
+ $('modeval').className='mval '+(anon?'anon':'auth');
+ $('anonbanner').classList.toggle('show',anon);
+ $('userchip').style.display=anon?'none':'flex';
+ $('fwdbtn').style.display=anon?'none':'flex';
+ $('runbtn').style.opacity=''; $('runbtn').style.pointerEvents='';
+ updatePips(); hidePostRun(); resetLife(); setChip('');
+ out.innerHTML='<span style="color:var(--txt5)">Press Run — your code executes in a real sandbox.</span>';
+ status.textContent='Idle'; status.style.color='var(--txt3)';
+}
+function updatePips(){
+ for(let i=0;i<5;i++) $('pip'+i).classList.toggle('used',i<anonRuns);
+ const left=maxRuns-anonRuns;
+ $('runsremaining').textContent=left>0?left+' run'+(left===1?'':'s')+' remaining':'No runs left';
+}
+$('modetog').addEventListener('click',()=>setMode(!anonMode));
+['signupbanner','signupbtn','signinbtn'].forEach(id=>{
+ const el=$(id); if(el) el.addEventListener('click',()=>alert('→ '+(id==='signinbtn'?'Sign-in':'Sign-up')+' page'));
+});
+
+$('sniphdr').addEventListener('click',()=>{
+ $('snipbody').classList.toggle('open');$('snippychev').classList.toggle('open');
+});
+$('sniplang').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+ $('sniplang').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+ b.classList.add('on'); snipLang=b.dataset.sl; updateSnip();
+}));
+$('snipcopy').addEventListener('click',()=>{
+ navigator.clipboard.writeText($('snipcode').textContent).then(()=>{
+   $('snipcopylbl').textContent='Copied'; setTimeout(()=>$('snipcopylbl').textContent='Copy',1400);
+ });
+});
+
+const divider=$('divider'), left=document.querySelector('.left'), split=document.querySelector('.split');
+let dragging=false, startX=0, startW=0;
+divider.addEventListener('mousedown',e=>{
+ dragging=true; startX=e.clientX; startW=left.offsetWidth;
+ divider.classList.add('dragging');
+ document.body.style.cursor='col-resize';
+ document.body.style.userSelect='none';
+});
+document.addEventListener('mousemove',e=>{
+ if(!dragging)return;
+ const delta=e.clientX-startX;
+ const newW=Math.max(280,Math.min(startW+delta, split.offsetWidth*0.7));
+ left.style.width=newW+'px';
+});
+document.addEventListener('mouseup',()=>{
+ if(!dragging)return; dragging=false;
+ divider.classList.remove('dragging');
+ document.body.style.cursor=''; document.body.style.userSelect='';
+});
+
+sel('hello');
+</script>
+</body>
+</html>
