@@ -30,7 +30,7 @@
 
   /* LEFT NAV — unchanged */
   .nav{width:172px;flex:none;border-right:.5px solid var(--line2);padding:16px 11px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;}
-  .brand{display:flex;align-items:center;gap:8px;padding:2px 6px 16px;font-size:15px;font-weight:500;}
+  .brand{display:flex;align-items:center;padding:2px 6px 16px;}
   .org{display:flex;align-items:center;justify-content:space-between;background:var(--surf);border:.5px solid #232325;border-radius:6px;padding:7px 9px;margin-bottom:10px;color:#c0c0c2;font-size:12px;}
   .nl{display:flex;align-items:center;gap:8px;color:var(--txt2);font-size:12px;padding:7px 8px;border-radius:6px;cursor:default;}
   .nl.active{color:var(--txt);background:var(--surf2);}
@@ -40,9 +40,12 @@
 
   /* CONTENT AREA */
   .content{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;}
-  .topbar{display:flex;align-items:center;justify-content:flex-end;gap:18px;padding:11px 20px;border-bottom:.5px solid var(--line2);flex:none;}
+  .topbar{display:flex;align-items:center;justify-content:flex-end;gap:18px;padding:11px 20px;border-bottom:.5px solid var(--line2);flex:none;position:relative;}
+  .topbar .centerwrap{position:absolute;left:50%;transform:translateX(-50%);}
   .topbar span{color:var(--txt2);font-size:12px;display:flex;align-items:center;gap:6px;}
   .topbar .me{color:#c0c0c2;border:.5px solid #232325;padding:4px 10px;border-radius:6px;}
+  .topbar-signup{all:unset;cursor:pointer;color:var(--txt);font-size:11.5px;font-weight:500;padding:5px 14px;border-radius:6px;border:1px solid rgba(255,255,255,0.4);transition:border-color .15s;}
+  .topbar-signup:hover{border-color:rgba(255,255,255,0.8);}
 
   /* SPLIT */
   .split{flex:1;min-height:0;display:flex;position:relative;}
@@ -89,20 +92,19 @@
   .aiform button{cursor:pointer;color:#0b0b0c;background:var(--txt);border:none;font-size:11px;font-weight:500;padding:5px 11px;border-radius:5px;}
 
   /* SETTINGS */
-  .slbl{color:var(--txt4);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:16px 20px 7px;display:flex;align-items:center;justify-content:space-between;}
-  .slbl .ctx{color:var(--txt5);font-size:9px;text-transform:none;letter-spacing:0;font-style:italic;}
-  .scfg{background:var(--surf);border:.5px solid var(--line);border-radius:9px;padding:12px;margin:0 20px;display:flex;flex-direction:column;gap:11px;}
-  .flbl{color:var(--txt3);font-size:10px;margin-bottom:4px;}
+  .slbl{color:var(--txt4);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:16px 20px 7px;}
+  .scfg{background:var(--surf);border:.5px solid var(--line);border-radius:9px;padding:13px;margin:0 20px;display:flex;flex-direction:column;gap:12px;}
+  .flbl{color:var(--txt3);font-size:11px;margin-bottom:5px;}
   .seg{display:flex;gap:5px;}
-  .seg button{cursor:pointer;flex:1;text-align:center;font-size:11px;padding:5px 0;border-radius:5px;background:#101012;border:.5px solid var(--line);color:var(--txt2);}
+  .seg button{cursor:pointer;flex:1;text-align:center;font-size:12px;padding:6px 0;border-radius:5px;background:#101012;border:.5px solid var(--line);color:var(--txt2);}
   .seg button.on{background:var(--chip);color:var(--txt);border-color:var(--chip);}
   .frow{display:flex;gap:6px;}
   .fld{flex:1;}
-  .fin{width:100%;background:#101012;border:.5px solid var(--chip);border-radius:5px;color:#d0d0d2;font-size:11px;padding:6px 8px;outline:none;font-family:var(--sans);transition:color .15s,border-color .15s;}
+  .fin{width:100%;background:#101012;border:.5px solid var(--chip);border-radius:5px;color:#d0d0d2;font-size:12px;padding:7px 9px;outline:none;font-family:var(--sans);transition:color .15s,border-color .15s;}
   .fin:focus{border-color:#3a6ea5;color:#fff;}
   .fin.changed{color:var(--green);}
   select.fin{cursor:pointer;-webkit-appearance:none;}
-  .snote{color:var(--txt4);font-size:9px;line-height:1.45;border-top:.5px solid var(--line);padding-top:9px;}
+  .snote{color:var(--txt4);font-size:10px;line-height:1.45;border-top:.5px solid var(--line);padding-top:9px;}
 
   /* ADVANCED SETTINGS */
   .adv{background:var(--surf);border:.5px solid var(--line);border-radius:9px;overflow:hidden;margin:10px 20px 0;}
@@ -144,8 +146,9 @@
   .stage.del.on .si{background:#1c1c1f;border-color:var(--txt3);color:var(--txt2);}
   .stage.del.on .sl{color:var(--txt2);}
   .conn{flex:1;height:2px;border-radius:2px;background:#1e1e22;position:relative;top:11px;overflow:hidden;}
-  .conn::after{content:"";position:absolute;left:0;top:0;height:100%;width:0;background:#2e6b43;transition:width .45s ease;}
-  .conn.fill::after{width:100%;}
+  .conn::after{content:"";position:absolute;left:0;top:0;height:100%;width:0;background:#2e6b43;border-radius:2px;}
+  .conn.fill::after{width:100%;transition:width 350ms ease;}
+  .conn.fill-instant::after{width:100%;}
 
   /* #4 — output metadata row */
   .meta{display:none;margin-top:8px;padding-top:8px;border-top:.5px solid #1a1a1d;display:none;gap:12px;flex-wrap:wrap;}
@@ -187,7 +190,6 @@
   .share{cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--txt2);font-size:11px;background:none;border:none;}
   .run{cursor:pointer;background:var(--txt);color:#0b0b0c;font-size:11.5px;font-weight:500;padding:5px 13px;border-radius:6px;display:flex;align-items:center;gap:5px;border:none;}
   .run svg.ic{font-size:12px;}
-  .promise{color:var(--txt3);font-size:11px;padding:5px 13px 3px;flex:none;}
   .code{margin:0;padding:11px 13px;flex:1;color:#d6d6d9;background:none;font-family:var(--mono);font-size:11.5px;line-height:1.6;white-space:pre-wrap;outline:none;overflow-y:auto;}
   .hl{background:rgba(123,216,143,.13);border-radius:3px;transition:background .6s;}
 
@@ -203,10 +205,23 @@
   .out{font-family:var(--mono);font-size:11px;line-height:1.8;color:#b9b9bd;}
   .out a{color:var(--accent);}
 
-  /* IDE container — flex column for proportional split */
-  .idestack{flex:1;min-height:0;display:flex;flex-direction:column;gap:0;}
+  /* DOTTED BACKGROUND for right pane */
+  .right{flex:1;min-width:0;display:flex;flex-direction:column;padding:16px;gap:0;background:var(--bg);position:relative;}
+  .right::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,#2a2a2e 1px,transparent 1px);background-size:14px 14px;pointer-events:none;z-index:0;}
+  .idestack{flex:1;min-height:0;display:flex;flex-direction:column;gap:0;position:relative;z-index:1;}
+  .lifetrack{display:flex;align-items:flex-start;gap:0;padding:0 0 14px;position:relative;z-index:1;}
   .code-ide{flex:1.4;min-height:0;display:flex;flex-direction:column;}
   .out-ide{flex:1;min-height:0;display:flex;flex-direction:column;background:#0d0d0f;border:.5px solid #232325;border-radius:10px;overflow:hidden;margin-top:8px;}
+
+  /* ANON NAV — hide non-essential items */
+  .nav-auth{transition:opacity .2s;}
+  body.anon .nav-auth{display:none;}
+
+  /* CREATE SANDBOX CTA — replaces signup prompt */
+  .createcta{display:none;margin:0;border-top:.5px solid #1a1a1d;padding:12px 13px;}
+  .createcta.show{display:block;}
+  .createcta button{cursor:pointer;width:100%;background:var(--accent);color:#070708;font-size:12px;font-weight:500;padding:9px 0;border-radius:7px;border:none;display:flex;align-items:center;justify-content:center;gap:7px;}
+  .createcta button svg.ic{font-size:14px;}
 
   /* ANON MODE TOGGLE in topbar */
   .modetog{display:flex;align-items:center;gap:8px;padding:4px 10px;border-radius:6px;border:.5px solid var(--line);cursor:pointer;user-select:none;margin-right:8px;}
@@ -214,17 +229,6 @@
   .modetog .mval{font-size:11px;font-weight:500;}
   .modetog .mval.anon{color:var(--amber);}
   .modetog .mval.auth{color:var(--green);}
-
-  /* ANON BANNER — below topbar */
-  .anonbanner{display:none;align-items:center;justify-content:space-between;padding:7px 20px;background:#1a1508;border-bottom:.5px solid #3a2e0a;}
-  .anonbanner.show{display:flex;}
-  .anonbanner .bl{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#c8a84b;}
-  .anonbanner .bl svg.ic{font-size:14px;}
-  .runcount{font-size:11px;color:#a08030;display:flex;align-items:center;gap:6px;}
-  .runcountpips{display:flex;gap:3px;}
-  .pip{width:8px;height:8px;border-radius:50%;background:#3a2e0a;border:.5px solid #5a4a1a;transition:background .2s,border-color .2s;}
-  .pip.used{background:var(--amber);border-color:var(--amber);}
-  .anonbanner .signup-inline{cursor:pointer;font-size:11px;color:var(--accent);background:none;border:.5px solid #1a3a5c;padding:4px 10px;border-radius:5px;}
 
   /* POST-RUN SIGN-UP PROMPT */
   .signup{display:none;margin:0;border-top:.5px solid #1a1a1d;}
@@ -244,21 +248,21 @@
 
   <!-- LEFT NAV -->
   <nav class="nav">
-    <div class="brand"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg>Daytona</div>
-    <div class="org"><span>Personal</span><svg class="ic" style="font-size:12px;color:var(--txt3)" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg></div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Search</div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg>Sandboxes</div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3"/></svg>Snapshots</div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/></svg>Registries</div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg>Volumes</div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Audit Logs</div>
-    <div class="ndiv"></div>
+    <div class="brand"><svg width="96" height="23" viewBox="0 0 375 90" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4.5271" y="60.1447" width="30.9781" height="10.5506" fill="white"/><rect x="46.1223" y="23.2178" width="35.4035" height="10.5506" fill="white"/><rect width="37.0506" height="10.5859" transform="matrix(0.709456 -0.70475 0.709456 0.70475 27.5354 26.4696)" fill="white"/><rect width="28.4546" height="10.5859" transform="matrix(-0.709456 -0.70475 -0.709456 0.70475 27.6975 52.846)" fill="white"/><rect width="29.9934" height="10.5859" transform="matrix(-0.709456 0.70475 -0.709456 -0.70475 54.252 67.6053)" fill="white"/><rect width="33.522" height="10.5859" transform="matrix(0.709456 0.70475 0.709456 -0.70475 54.0898 41.229)" fill="white"/><rect x="27.5354" y="15.3051" width="25.4973" height="10.6211" transform="rotate(90 27.5354 15.3051)" fill="white"/><rect x="64.7122" y="52.232" width="31.6519" height="10.6211" transform="rotate(90 64.7122 52.232)" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M111.728 72.5403C116.746 72.5403 120.962 72.5403 124.489 72.5403C131.709 72.6503 137.136 72.2506 140.994 70.6014C144.907 68.8972 147.662 66.066 149.261 62.1079C150.914 58.1498 151.741 52.4325 151.741 44.956C151.741 38.0292 151.052 32.282 149.674 28.3788C148.296 24.4756 145.954 21.5895 142.647 19.7204C139.395 17.7963 134.766 16.5319 128.758 15.9272C126.003 15.6523 123.33 15.5149 120.739 15.5149C118.149 15.4599 115.073 15.5148 111.728 15.5148V72.5403ZM136.943 62.6851C134.959 63.9495 132.203 64.6917 128.676 64.9116C127.628 65.0215 126.499 65.049 125.286 64.994C124.129 64.9391 122.668 64.8566 120.905 64.7467V23.7634C123.219 23.7634 125.755 23.9009 128.51 24.1758C132.203 24.6155 135.041 25.4951 137.025 26.8145C139.01 28.1339 140.415 30.1679 141.242 32.9166C142.068 35.6104 142.482 39.4036 142.482 44.2963C142.482 49.4639 142.041 53.5045 141.159 56.4181C140.332 59.2767 138.927 61.3658 136.943 62.6851Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M159.657 71.8383C161.751 72.608 164.699 72.9928 168.502 72.9928C171.864 72.9928 174.427 72.5805 176.191 71.7559C177.954 70.8763 179.58 69.282 181.068 66.9731H181.73V72.583H189.831V43.3892C189.831 39.3761 189.308 36.2976 188.261 34.1536C187.214 31.9546 185.422 30.4153 182.887 29.5357C180.407 28.6012 176.88 28.1339 172.305 28.1339C167.786 28.1339 164.286 28.5462 161.806 29.3708C159.381 30.1404 157.672 31.4873 156.68 33.4114C155.688 35.2805 155.023 37.9805 155.023 41.4926H164.203C164.203 39.1837 164.755 37.6169 165.857 36.7923C167.014 35.9677 169.164 35.5554 172.305 35.5554C174.675 35.5554 176.521 35.8028 177.844 36.2976C179.167 36.7923 180.104 37.5894 180.655 38.6889C181.206 39.7884 181.482 41.3552 181.482 43.3892V44.5437H174.455C169.109 44.5437 164.975 45.011 162.054 45.9455C159.133 46.8251 157.066 48.3919 155.854 50.6458C154.641 52.8448 154.035 55.9508 154.035 59.9639C154.035 63.3723 154.448 66.0111 155.275 67.8802C156.157 69.7493 157.617 71.0687 159.657 71.8383ZM176.935 64.1694C175.392 64.9941 173.159 65.4064 170.238 65.4064C167.372 65.4064 165.416 64.9666 164.369 64.087C163.322 63.2074 162.798 61.5857 162.798 59.2218C162.798 57.2977 163.101 55.8409 163.707 54.8513C164.314 53.8068 165.306 53.0647 166.684 52.6249C168.117 52.1851 170.128 51.9377 172.719 51.8827L181.399 51.8003C181.289 55.3736 180.903 58.1223 180.242 60.0464C179.58 61.9705 178.478 63.3448 176.935 64.1694Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M264.112 71.0137C266.923 72.3331 270.919 72.9928 276.1 72.9928C281.225 72.9928 285.193 72.3331 288.004 71.0137C290.815 69.6394 292.799 67.3854 293.956 64.2519C295.169 61.0634 295.775 56.528 295.775 50.6458C295.775 44.7086 295.169 40.1457 293.956 36.9572C292.799 33.7687 290.815 31.5148 288.004 30.1954C285.248 28.8211 281.28 28.1339 276.1 28.1339C270.919 28.1339 266.923 28.8211 264.112 30.1954C261.301 31.5148 259.317 33.7687 258.16 36.9572C257.003 40.1457 256.424 44.7086 256.424 50.6458C256.424 56.528 257.003 61.0634 258.16 64.2519C259.317 67.4404 261.301 69.6943 264.112 71.0137ZM282.631 64.087C281.142 64.9666 278.965 65.4064 276.1 65.4064C273.234 65.4064 271.029 64.9666 269.486 64.087C267.943 63.2074 266.84 61.7231 266.179 59.6341C265.518 57.5451 265.187 54.549 265.187 50.6458C265.187 46.6877 265.518 43.6641 266.179 41.5751C266.84 39.4311 267.943 37.9193 269.486 37.0397C271.029 36.1051 273.234 35.6379 276.1 35.6379C278.965 35.6379 281.142 36.1051 282.631 37.0397C284.174 37.9193 285.276 39.4311 285.937 41.5751C286.599 43.6641 286.929 46.6877 286.929 50.6458C286.929 54.549 286.599 57.5451 285.937 59.6341C285.276 61.7231 284.174 63.2074 282.631 64.087Z" fill="white"/><path d="M298.809 28.5413H307.655V35.308H308.317C309.695 32.5043 311.238 30.6077 312.946 29.6182C314.71 28.6287 317.245 28.1339 320.552 28.1339C324.52 28.1339 327.579 28.6561 329.728 29.7007C331.878 30.6902 333.421 32.3669 334.358 34.7308C335.295 37.0947 335.763 40.4756 335.763 44.8735V72.583H326.918V44.7086C326.918 42.4547 326.67 40.6955 326.174 39.4311C325.678 38.1667 324.823 37.2871 323.611 36.7923C322.398 36.2976 320.662 36.0502 318.403 36.0502C315.592 36.0502 313.415 36.4625 311.872 37.2871C310.383 38.1117 309.309 39.5135 308.647 41.4926C307.986 43.4717 307.655 46.2754 307.655 49.9037V72.583H298.809V28.5413Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M344.825 71.8383C346.919 72.608 349.868 72.9928 353.671 72.9928C357.033 72.9928 359.596 72.5805 361.359 71.7559C363.123 70.8763 364.749 69.282 366.237 66.9731H366.898V72.583H375V43.3892C375 39.3761 374.476 36.2976 373.429 34.1536C372.382 31.9546 370.591 30.4153 368.056 29.5357C365.575 28.6012 362.048 28.1339 357.474 28.1339C352.954 28.1339 349.455 28.5462 346.974 29.3708C344.549 30.1404 342.841 31.4873 341.849 33.4114C340.857 35.2805 340.377 37.6482 340.377 41.4926H349.372C349.372 39.1837 349.923 37.6169 351.025 36.7923C352.183 35.9677 354.332 35.5554 357.474 35.5554C359.844 35.5554 361.69 35.8028 363.013 36.2976C364.335 36.7923 365.272 37.5894 365.823 38.6889C366.375 39.7884 366.65 41.3552 366.65 43.3892V44.5437H359.623C354.277 44.5437 350.144 45.011 347.222 45.9455C344.301 46.8251 342.235 48.3919 341.022 50.6458C339.81 52.8448 339.203 55.9508 339.203 59.9639C339.203 63.3723 339.617 66.0111 340.443 67.8802C341.325 69.7493 342.786 71.0687 344.825 71.8383ZM362.103 64.1694C360.56 64.9941 358.328 65.4064 355.407 65.4064C352.541 65.4064 350.584 64.9666 349.537 64.087C348.49 63.2074 347.967 61.5857 347.967 59.2218C347.967 57.2977 348.27 55.8409 348.876 54.8513C349.482 53.8068 350.474 53.0647 351.852 52.6249C353.285 52.1851 355.297 51.9377 357.887 51.8827L366.568 51.8003C366.457 55.3736 366.071 58.1223 365.41 60.0464C364.749 61.9705 363.646 63.3448 362.103 64.1694Z" fill="white"/><path d="M228.327 28.4504H219.812L211.449 64.6717H208.406L200.377 28.4504H192.014L198.797 62.7333C199.91 68.3596 204.845 72.4142 210.58 72.4142L208.773 78.052C207.904 80.2901 207.563 82.6162 203.18 82.6162H197.701V89.7608L207.854 89.8648C210.915 89.8128 214.762 87.6008 217.623 78.052L228.327 28.4504Z" fill="white"/><path d="M240.83 71.2005C242.778 72.1956 245.644 72.6931 249.428 72.6931H254.511V65.1468H252.183C249.957 65.1468 248.288 64.898 247.174 64.4005C246.061 63.9029 245.31 63.1842 244.92 62.2444C244.587 61.2492 244.42 59.8395 244.42 58.0151V35.7907H254.511V28.4931H244.42V19.2053L236.322 19.2053V28.4931H232.325L230.819 35.7907H235.988V58.3468C235.988 61.885 236.322 64.6769 236.99 66.7224C237.658 68.7127 238.938 70.2053 240.83 71.2005Z" fill="white"/></svg></div>
+    <div class="org nav-auth"><span>Personal</span><svg class="ic" style="font-size:12px;color:var(--txt3)" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg></div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Search</div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg>Sandboxes</div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3"/></svg>Snapshots</div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/></svg>Registries</div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg>Volumes</div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Audit Logs</div>
+    <div class="ndiv nav-auth"></div>
     <div class="nl active"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="3"/><path d="M8 12h2M9 11v2M15 11.5h.01M17 13.5h.01"/></svg>Playground</div>
-    <div class="ndiv"></div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="8" cy="13" r="4"/><path d="M11 11l8-8M16 5l3 3"/></svg>API Keys</div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M6 16V9a5 5 0 015-5h5"/></svg>Webhooks</div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 018 8"/></svg>Limits</div>
-    <div class="nl"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>Settings</div>
+    <div class="ndiv nav-auth"></div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><circle cx="8" cy="13" r="4"/><path d="M11 11l8-8M16 5l3 3"/></svg>API Keys</div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M6 16V9a5 5 0 015-5h5"/></svg>Webhooks</div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 018 8"/></svg>Limits</div>
+    <div class="nl nav-auth"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>Settings</div>
     <div class="ver">v0.187.0</div>
   </nav>
 
@@ -267,25 +271,15 @@
     <div class="topbar">
       <span><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>Docs</span>
       <span><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg>Support</span>
-      <div class="modetog" id="modetog" title="Toggle between signed-in and anonymous mode for demo">
-        <span class="ml">Viewing as:</span>
-        <span class="mval auth" id="modeval">Signed in</span>
-        <svg class="ic" style="font-size:12px;color:var(--txt4)" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
-      </div>
-      <span class="me" id="userchip"><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>Emanuel L.</span>
-    </div>
-    <div class="anonbanner" id="anonbanner">
-      <div class="bl">
-        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
-        You're trying Daytona without an account. 5 free runs — no sign-up needed.
-      </div>
-      <div class="runcount">
-        <span>Runs left:</span>
-        <div class="runcountpips" id="pips">
-          <div class="pip" id="pip0"></div><div class="pip" id="pip1"></div><div class="pip" id="pip2"></div><div class="pip" id="pip3"></div><div class="pip" id="pip4"></div>
+      <div class="centerwrap">
+        <div class="modetog" id="modetog" title="Toggle between signed-in and anonymous mode for demo">
+          <span class="ml">Viewing as:</span>
+          <span class="mval auth" id="modeval">Signed in</span>
+          <svg class="ic" style="font-size:12px;color:var(--txt4)" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
         </div>
       </div>
-      <button class="signup-inline" id="signupbanner">Create free account →</button>
+      <span class="me" id="userchip"><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>Emanuel L.</span>
+      <button id="topbarsignup" class="topbar-signup" style="display:none;">Sign up free</button>
     </div>
 
     <div class="split">
@@ -315,7 +309,7 @@
           <button id="aigo" style="cursor:pointer;color:#0b0b0c;background:var(--txt);border:none;font-size:11px;font-weight:500;padding:5px 11px;border-radius:5px;">Generate</button>
         </div>
 
-        <div class="slbl">Sandbox settings <span class="ctx" id="setctx">hello sandbox</span></div>
+        <div class="slbl">Sandbox settings</div>
         <div class="scfg">
           <div><div class="flbl">Language</div><div class="seg" id="langseg"><button class="on" data-l="python">Python</button><button data-l="ts">TypeScript</button></div></div>
           <div class="frow">
@@ -430,11 +424,10 @@ print(greet("Daytona"))</textarea>
                 <button class="share" id="copybtn" title="Copy"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span id="copylabel"></span></button>
                 <button class="share" id="sharebtn"><svg class="ic" viewBox="0 0 24 24"><path d="M9 13a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7L10 6"/><path d="M15 11a4 4 0 00-5.7 0l-3 3A4 4 0 0012 19.7L14 18"/></svg><span id="sharelabel">Share</span></button>
                 <span class="statuschip"><span class="dot" id="dot"></span><span id="chiptext">No sandbox</span></span>
-                <button id="fwdbtn" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;color:#0b0b0c;background:var(--txt);font-size:11px;font-weight:500;padding:5px 12px;border-radius:6px;white-space:nowrap;"><svg class="ic" id="fwdicon" style="font-size:12px" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg><span id="fwdlabel">Save as sandbox</span></button>
+                <button id="fwdbtn" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--txt);font-size:11px;font-weight:500;padding:5px 12px;border-radius:6px;white-space:nowrap;border:1px solid rgba(255,255,255,0.35);transition:border-color .15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.35)'"><svg class="ic" id="fwdicon" style="font-size:12px" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg><span id="fwdlabel">Create sandbox</span></button>
                 <button class="run" id="runbtn"><svg class="ic" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>Run</button>
               </div>
             </div>
-            <div class="promise" id="promise"></div>
             <pre class="code" id="code" contenteditable="true" spellcheck="false" oninput="manualEdit()"></pre>
           </div>
 
@@ -471,17 +464,9 @@ print(greet("Daytona"))</textarea>
                 <div class="snippre" id="snippre"><button class="snipcopy" id="snipcopy"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span id="snipcopylbl">Copy</span></button><span id="snipcode"></span></div>
               </div>
             </div>
-            <!-- SIGN-UP PROMPT — anon mode only, post-run -->
-            <div class="signup" id="signup">
-              <div class="signupinner">
-                <p class="sh">Ready to use this in your project?</p>
-                <p class="ss">You've seen it work. Create a free account to save sandboxes, remove the run limit, and integrate the SDK into your own code.</p>
-                <div class="signupbtns">
-                  <button class="primary" id="signupbtn">Create free account</button>
-                  <button class="secondary" id="signinbtn">Sign in</button>
-                  <span class="runsremaining" id="runsremaining"></span>
-                </div>
-              </div>
+            <!-- CREATE SANDBOX CTA — anon mode only, post-run -->
+            <div class="createcta" id="createcta">
+              <button id="createctabtn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg>Create Sandbox</button>
             </div>
           </div>
 
@@ -517,7 +502,7 @@ const T={
 
 let cur='hello',running=false,lang='python',highlightTimer=null,isManual=false;
 const $=id=>document.getElementById(id);
-const code=$('code'),out=$('out'),status=$('status'),promise=$('promise');
+const code=$('code'),out=$('out'),status=$('status');
 const inCpu=$('f-cpu'),inMem=$('f-mem'),inDisk=$('f-disk'),inDel=$('f-del');
 
 function delComment(v){if(v==0)return "deleted immediately";if(v==-1)return "deleted when session ends";return "kept alive, deleted after "+v+"min idle";}
@@ -532,14 +517,13 @@ function buildCode(highlight){
 function applyCfg(k){
  const c=T[k].cfg;
  inCpu.value=c.cpu;inMem.value=c.mem;inDisk.value=c.disk;inDel.value=String(c.del);
- $('setnote').textContent=T[k].note;$('setctx').textContent=T[k].ctx;
+ $('setnote').textContent=T[k].note;
  inCpu.classList.toggle('changed',c.cpu!==1);inMem.classList.toggle('changed',c.mem!==1);
  inDisk.classList.toggle('changed',c.disk!==1);inDel.classList.toggle('changed',c.del!==0);
 }
 function manualEdit(){
  if(isManual)return;isManual=true;
  document.querySelectorAll('.uc').forEach(b=>b.classList.remove('active'));
- $('setctx').textContent='custom';
  [inCpu,inMem,inDisk,inDel].forEach(el=>el.classList.remove('changed'));
 }
 function setChip(state){
@@ -548,22 +532,33 @@ function setChip(state){
 }
 function resetLife(){
  document.querySelectorAll('.stage').forEach(s=>s.classList.remove('on','done'));
- document.querySelectorAll('.conn').forEach(s=>s.classList.remove('fill'));
+ document.querySelectorAll('.conn').forEach(s=>{s.classList.remove('fill');s.classList.remove('fill-instant');});
  $('ms-create').textContent='';
  const v=inDel.value;
  $('del-label').textContent=v==='-1'?'End session':(v==='0'?'Delete':'Auto-delete');
 }
 function stageOn(n){document.querySelector('.stage[data-stage="'+n+'"]').classList.add('on');}
-function stageDone(n,seg){
+function stageDone(n,seg,cb){
  const s=document.querySelector('.stage[data-stage="'+n+'"]');
  s.classList.remove('on');s.classList.add('done');
- if(seg!=null)document.querySelector('.conn[data-seg="'+seg+'"]').classList.add('fill');
+ if(seg!=null){
+   const c=document.querySelector('.conn[data-seg="'+seg+'"]');
+   setTimeout(()=>{c.classList.add('fill');setTimeout(()=>{if(cb)cb();},380);},80);
+ } else {if(cb)cb();}
 }
 function setFwdBtn(state){
  const btn=$('fwdbtn'),lbl=$('fwdlabel'),ico=$('fwdicon');
- if(state==='saved'){lbl.textContent='Saved ✓';btn.style.background='#1e5c3a';btn.style.color='var(--green)';setTimeout(()=>{lbl.textContent='Save as sandbox';btn.style.background='var(--txt)';btn.style.color='#0b0b0c';},1800);}
- else if(state==='terminal'){lbl.textContent='Open in Terminal →';ico.innerHTML='<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>';btn.style.background='#1a3a5c';btn.style.color='var(--accent)';}
- else{lbl.textContent='Save as sandbox';ico.innerHTML='<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/>';btn.style.background='var(--txt)';btn.style.color='#0b0b0c';}
+ if(state==='saved'){
+   lbl.textContent='Saved ✓';
+   btn.style.borderColor='var(--green)';btn.style.color='var(--green)';
+   setTimeout(()=>{lbl.textContent='Create sandbox';btn.style.borderColor='rgba(255,255,255,0.35)';btn.style.color='var(--txt)';},1800);
+ } else if(state==='terminal'){setFwdBtn('default');}
+ else{
+   lbl.textContent='Create sandbox';
+   ico.innerHTML='<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/>';
+   btn.style.borderColor='rgba(255,255,255,0.35)';btn.style.color='var(--txt)';
+   btn.style.background='';
+ }
 }
 function sel(k){
  if(running)return;
@@ -571,7 +566,6 @@ function sel(k){
  if(k==='ai'){$('aiform').classList.add('show');$('ai').focus();return;}
  $('aiform').classList.remove('show');
  cur=k;isManual=false;
- promise.textContent=T[k].p;
  out.innerHTML='<span style="color:var(--txt5)">Press Run — your code executes in a real sandbox.</span>';
  status.textContent='Idle';status.style.color='var(--txt3)';
  applyCfg(k);buildCode(false);resetLife();setChip('');setFwdBtn('default');hidePostRun();
@@ -588,23 +582,36 @@ $('runbtn').addEventListener('click',()=>{
  resetLife();status.textContent='Running';status.style.color='var(--amber)';
  hidePostRun();
  const delV=inDel.value;
+ // Stage 1: Create
  setChip('creating');stageOn('create');
- setTimeout(()=>{$('ms-create').textContent='87ms';stageDone('create',0);setChip('running');stageOn('run');},600);
- let d=0;T[cur].s.forEach((st,i)=>{d+=st[0];setTimeout(()=>{const l=document.createElement('div');l.innerHTML=st[1];out.appendChild(l);},d);});
- setTimeout(()=>{stageDone('run',1);stageOn('result');},d*0.6);
  setTimeout(()=>{
-   stageDone('result',2);status.textContent='Completed';status.style.color='var(--green)';running=false;
-   setFwdBtn('terminal');
-   showPostRun(delV);
-   if(delV==='0'||delV==='-1'){stageOn('del');setTimeout(()=>{stageDone('del');setChip('gone');},500);}
-   else{setChip('done');}
- },d+150);
+   $('ms-create').textContent='87ms';
+   // fill seg 0, then stage Run
+   stageDone('create',0,()=>{
+     setChip('running');stageOn('run');
+     // stream output
+     let d=0;T[cur].s.forEach((st)=>{d+=st[0];setTimeout(()=>{const l=document.createElement('div');l.innerHTML=st[1];out.appendChild(l);},d);});
+     // fill seg 1 after output streams, then stage Result
+     setTimeout(()=>{
+       stageDone('run',1,()=>{
+         stageOn('result');
+         setTimeout(()=>{
+           // fill seg 2, then stage Delete
+           stageDone('result',2,()=>{
+             status.textContent='Completed';status.style.color='var(--green)';running=false;
+             setFwdBtn('terminal');showPostRun(delV);
+             if(delV==='0'||delV==='-1'){
+               stageOn('del');
+               setTimeout(()=>{stageDone('del',null);setChip('gone');},500);
+             } else {setChip('done');}
+           });
+         },300);
+       });
+     },d+100);
+   });
+ },600);
 });
-$('fwdbtn').addEventListener('click',()=>{
- if($('fwdlabel').textContent==='Open in Terminal →'){alert('→ Opens Terminal tab with this sandbox active');return;}
- setFwdBtn('saved');
-});
-$('copybtn').addEventListener('click',()=>{
+$('fwdbtn').addEventListener('click',()=>{ setFwdBtn('saved'); });$('copybtn').addEventListener('click',()=>{
  const text=code.innerText||code.textContent;
  navigator.clipboard.writeText(text).then(()=>{$('copylabel').textContent=' Copied';setTimeout(()=>$('copylabel').textContent='',1500);});
 });
@@ -614,7 +621,6 @@ $('aigo').addEventListener('click',()=>{
  out.innerHTML='<span style="color:#7a7a7e">Generating for: "'+v.replace(/</g,'&lt;')+'"…</span>';
  setTimeout(()=>{cur='repo';$('aiform').classList.remove('show');isManual=false;
    document.querySelectorAll('.uc').forEach(b=>b.classList.remove('active'));
-   promise.textContent='Generated from your description.';
    applyCfg('repo');buildCode(true);resetLife();setChip('');
    out.innerHTML='<span style="color:#e8e8ea">Code generated — review it, then press Run.</span>';
  },1000);
@@ -649,7 +655,7 @@ const SNIP={
   rest:`POST /v1/sandbox/{id}/snapshot\nDELETE /v1/sandbox/{id}\nPOST /v1/sandbox {"snapshot": "{snapshot_id}"}`
  }
 };
-let snipLang='python', snipOpen=false;
+let snipLang='python';
 function updateSnip(){
  const s=SNIP[cur]||SNIP.hello;
  $('snipcode').textContent=s[snipLang]||s.python;
@@ -668,39 +674,35 @@ function showPostRun(delV){
  if(!anonMode){
    updateSnip();
    $('snippet').classList.add('show');
-   if(!snipOpen){$('snipbody').classList.add('open');$('snippychev').classList.add('open');snipOpen=true;}
  }
  // anon sign-up prompt
  if(anonMode){
-   anonRuns++; updatePips();
-   $('signup').classList.add('show');
-   const left=maxRuns-anonRuns;
-   if(left<=0){
-     // disable run button
+   anonRuns++;
+   $('createcta').classList.add('show');
+   if(anonRuns>=maxRuns){
      $('runbtn').style.opacity='0.4';
      $('runbtn').style.pointerEvents='none';
-     $('signup').querySelector('.sh').textContent="You've used all 5 free runs.";
-     $('signup').querySelector('.ss').textContent="Create a free account to keep going — no credit card needed.";
    }
  }
 }
 function hidePostRun(){
  $('meta').classList.remove('show');
  $('snippet').classList.remove('show');
- $('signup').classList.remove('show');
+ $('createcta').classList.remove('show');
 }
 
 // ANONYMOUS MODE
 let anonMode=false, anonRuns=0, maxRuns=5;
 function setMode(anon){
  anonMode=anon; anonRuns=0;
+ document.body.classList.toggle('anon',anon);
  $('modeval').textContent=anon?'Anonymous':'Signed in';
  $('modeval').className='mval '+(anon?'anon':'auth');
- $('anonbanner').classList.toggle('show',anon);
  $('userchip').style.display=anon?'none':'flex';
+ $('topbarsignup').style.display=anon?'block':'none';
  $('fwdbtn').style.display=anon?'none':'flex';
  $('runbtn').style.opacity=''; $('runbtn').style.pointerEvents='';
- updatePips(); hidePostRun(); resetLife(); setChip('');
+ hidePostRun(); resetLife(); setChip('');
  out.innerHTML='<span style="color:var(--txt5)">Press Run — your code executes in a real sandbox.</span>';
  status.textContent='Idle'; status.style.color='var(--txt3)';
 }
@@ -713,6 +715,8 @@ $('modetog').addEventListener('click',()=>setMode(!anonMode));
 ['signupbanner','signupbtn','signinbtn'].forEach(id=>{
  const el=$(id); if(el) el.addEventListener('click',()=>alert('→ '+(id==='signinbtn'?'Sign-in':'Sign-up')+' page'));
 });
+$('topbarsignup').addEventListener('click',()=>alert('→ Sign-up page'));
+$('createctabtn') && $('createctabtn').addEventListener('click',()=>alert('→ Create Sandbox page'));
 
 $('sniphdr').addEventListener('click',()=>{
  $('snipbody').classList.toggle('open');$('snippychev').classList.toggle('open');
