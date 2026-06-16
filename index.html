@@ -250,8 +250,6 @@
   .ctip:hover .ctiptxt{display:block;}
   .ctiptxt{display:none;position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:#1e1e24;border:.5px solid #3a3a42;border-radius:7px;padding:7px 10px;font-size:10.5px;color:#d0d0d4;line-height:1.5;white-space:nowrap;z-index:50;font-family:var(--sans);pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.4);}
   .ctiptxt::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#3a3a42;}
-  /* ANON NAV */
-  body.anon .nav-auth{display:none;}
   /* TOPBAR SIGNUP */
   .topbar-signup{all:unset;cursor:pointer;color:var(--txt);font-size:11.5px;font-weight:500;padding:5px 14px;border-radius:6px;border:1px solid rgba(255,255,255,0.4);transition:border-color .15s;}
   .topbar-signup:hover{border-color:rgba(255,255,255,0.8);}
@@ -260,6 +258,60 @@
   .createcta.show{display:block;}
   .createcta button{cursor:pointer;width:100%;background:transparent;color:var(--txt);font-size:12px;font-weight:500;padding:10px 0;border-radius:0 0 10px 10px;border:none;border-top:.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;gap:7px;}
   .createcta button:hover{background:#0f0f14;}
+
+  .uclbl{color:var(--txt4);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:16px 20px 7px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 20px;}
+  .uc{cursor:pointer;text-align:left;background:var(--surf);border:.5px solid var(--line);border-radius:9px;padding:11px 12px;display:flex;flex-direction:column;gap:5px;transition:border-color .12s;}
+  .uc:hover{border-color:#34343a;}
+  .uc.active{border-color:#4a4a52;background:var(--surf2);}
+  .uc .ico{width:26px;height:26px;border-radius:6px;background:#1e1e22;display:flex;align-items:center;justify-content:center;color:var(--txt2);font-size:13px;margin-bottom:3px;}
+  .uc.active .ico{background:#2a2a30;color:var(--txt);}
+  .uc .nm{color:var(--txt);font-size:11.5px;font-weight:500;line-height:1.3;}
+  .uc .ds{color:var(--txt3);font-size:10.5px;line-height:1.3;}
+  .aiinput{padding:12px 20px 0;}
+  .aibox{display:flex;align-items:center;gap:9px;background:var(--surf);border:.5px solid #2a2a2e;border-radius:8px;padding:0 12px;}
+  .aibox:focus-within{border-color:#3a6ea5;}
+  .aibox svg.ic{color:var(--accent);font-size:15px;flex:none;}
+  .aibox input{flex:1;background:none;border:none;outline:none;color:#e0e0e2;font-size:12px;padding:9px 0;font-family:var(--sans);}
+  .aibox button{cursor:pointer;color:#0b0b0c;background:var(--txt);border:none;font-size:11px;font-weight:500;padding:5px 11px;border-radius:5px;}
+  .aibox button:disabled{opacity:.5;}
+  .aigenerating{padding:6px 20px 0;font-size:11px;color:var(--txt3);display:none;}
+  .aigenerating.show{display:block;}
+  .ctxset{padding:12px 20px 0;display:none;}
+  .ctxset.show{display:block;}
+  .cslbl{color:var(--txt4);font-size:10px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:7px;}
+  .csbox{background:var(--surf);border:.5px solid var(--line);border-radius:8px;padding:12px;}
+  .csfield{margin-bottom:9px;}
+  .csfield:last-child{margin-bottom:0;}
+  .csfield label{display:block;color:var(--txt3);font-size:10.5px;margin-bottom:4px;}
+  .csfield input,.csfield textarea{width:100%;background:#101012;border:.5px solid var(--chip);border-radius:5px;color:#d0d0d2;font-size:11.5px;padding:7px 9px;outline:none;font-family:var(--sans);}
+  .csfield input:focus,.csfield textarea:focus{border-color:#3a6ea5;color:#fff;}
+  .csfield textarea{font-family:var(--mono);resize:vertical;min-height:70px;}
+  .frow{display:flex;gap:7px;}
+  .frow .csfield{flex:1;}
+
+  .savebtn{all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--txt);font-size:11px;font-weight:500;padding:5px 11px;border-radius:6px;white-space:nowrap;border:1px solid rgba(255,255,255,0.3);}
+  .docspanel{display:none;border-top:.5px solid #1a1a1d;padding:10px 13px;}
+  .docspanel.show{display:block;}
+  .installrow{display:flex;align-items:center;gap:8px;background:#0a0a0c;border:.5px solid #1e1e22;border-radius:6px;padding:7px 10px;margin-bottom:8px;}
+  .installrow code{flex:1;font-family:var(--mono);font-size:11px;color:#d6d6d9;}
+  .copyi{cursor:pointer;background:none;border:none;color:var(--txt4);font-size:10.5px;display:flex;align-items:center;gap:3px;}
+  .docslink{display:flex;align-items:center;gap:6px;color:var(--accent);font-size:11px;text-decoration:none;}
+  .docslink svg.ic{font-size:13px;}
+  .ctip{border-bottom:1px dashed #4a4a52;cursor:help;position:relative;display:inline;}
+  .ctip:hover .ctiptxt{display:block;}
+  .ctiptxt{display:none;position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:#1e1e24;border:.5px solid #3a3a42;border-radius:7px;padding:7px 10px;font-size:10.5px;color:#d0d0d4;line-height:1.5;white-space:nowrap;z-index:50;font-family:var(--sans);pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.4);}
+  .ctiptxt::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#3a3a42;}
+  .right{flex:1;min-width:0;display:flex;flex-direction:column;padding:16px;gap:0;background:var(--bg);position:relative;}
+  .right::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,#2a2a2e 1px,transparent 1px);background-size:14px 14px;pointer-events:none;z-index:0;}
+  .idestack{position:relative;z-index:1;}
+  .lifetrack{position:relative;z-index:1;}
+  /* IN-IDE LANGUAGE SELECTOR */
+  .ide-langseg{display:flex;gap:4px;margin-left:10px;background:#1a1a1d;border:.5px solid #2a2a2d;border-radius:8px;padding:3px;}
+  .ide-langseg button{cursor:pointer;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:5px 11px;border-radius:5px;background:transparent;border:none;color:var(--txt3);transition:background .12s,color .12s;font-family:var(--sans);}
+  .ide-langseg button.on{background:#2a2a30;color:var(--txt);box-shadow:0 1px 3px rgba(0,0,0,.4);}
+  .ide-langseg button:hover:not(.on){color:var(--txt2);}
+  body.anon .nav-auth{display:none;}
 </style>
 </head>
 <body>
@@ -290,16 +342,8 @@
     <div class="topbar">
       <span><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>Docs</span>
       <span><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg>Support</span>
-      <div class="centerwrap">
-        <div class="modetog" id="modetog" title="Toggle between signed-in and anonymous mode for demo">
-          <span class="ml">Viewing as:</span>
-          <span class="mval auth" id="modeval">Signed in</span>
-          <svg class="ic" style="font-size:12px;color:var(--txt4)" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
-        </div>
-      </div>
-      <button id="topbarsignup" class="topbar-signup" style="display:none;">Sign up free</button>
+
       <span class="me" id="userchip"><svg class="ic" style="font-size:13px" viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>Emanuel L.</span>
-      <button id="topbarsignup" class="topbar-signup" style="display:none;">Sign up free</button>
     </div>
 
     <div class="split">
@@ -314,110 +358,31 @@
           <p class="lead">Run AI Code safely.</p>
           <p class="sub">AI agents write code you haven't reviewed. Daytona gives each agent an isolated computer — spins up in under 100ms, executes anything, leaves nothing behind.</p>
         </div>
-        <div class="uclbl">Use cases</div>
+        <div class="uclbl">Examples</div>
         <div class="grid" id="grid">
-          <button class="uc active" data-t="hello"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg></div><div class="nm">Hello sandbox</div><div class="ds">Does it really work?</div></button>
-          <button class="uc" data-t="agent"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 6.5-7 9-4-2.5-7-5-7-9V6z"/><path d="M9.5 12l1.8 1.8 3.2-3.6"/></svg></div><div class="nm">Run AI-generated code</div><div class="ds">Safe, isolated, no risk</div></button>
-          <button class="uc" data-t="server"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13 0 16M12 4c-2.5 2.5-2.5 13 0 16"/></svg></div><div class="nm">Web server + live URL</div><div class="ds">Reach it from anywhere</div></button>
-          <button class="uc" data-t="repo"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M8.3 7.2L16 8.7"/></svg></div><div class="nm">Clone &amp; run a repo</div><div class="ds">Bring your own code</div></button>
-          <button class="uc" data-t="snap"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3"/></svg></div><div class="nm">Snapshots &amp; persistence</div><div class="ds">State that survives</div></button>
-          <button class="uc ai-card" data-t="ai"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></div><div class="nm">Describe your own</div><div class="ds">Describe what you need</div></button>
+          <button class="uc active" data-t="default"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div class="nm">Create a sandbox</div><div class="ds">Default settings</div></button>
+          <button class="uc" data-t="runcode"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg></div><div class="nm">Run code</div><div class="ds">Execute securely</div></button>
+          <button class="uc" data-t="resources"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div class="nm">Custom resources</div><div class="ds">Set CPU, memory, disk</div></button>
+          <button class="uc" data-t="ephemeral"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><div class="nm">Ephemeral sandbox</div><div class="ds">Auto-deleted when stopped</div></button>
+          <button class="uc" data-t="snapshot"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3"/></svg></div><div class="nm">From a snapshot</div><div class="ds">Pre-installed dependencies</div></button>
+          <button class="uc" data-t="image"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h7"/><rect x="13" y="14" width="8" height="7" rx="1"/></svg></div><div class="nm">Declarative image</div><div class="ds">Define deps programmatically</div></button>
+          <button class="uc" data-t="volumes"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div><div class="nm">With volumes</div><div class="ds">Share data across sandboxes</div></button>
+          <button class="uc" data-t="git"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M8.3 7.2L16 8.7"/></svg></div><div class="nm">Clone a Git repo</div><div class="ds">Version control ready</div></button>
         </div>
-        <div class="aiform" id="aiform">
-          <svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>
-          <input id="ai" placeholder="e.g. clone my repo, install deps, run the test suite" style="flex:1;background:none;border:none;outline:none;color:#e0e0e2;font-size:12px;padding:9px 0;font-family:var(--sans);">
-          <button id="aigo" style="cursor:pointer;color:#0b0b0c;background:var(--txt);border:none;font-size:11px;font-weight:500;padding:5px 11px;border-radius:5px;">Generate</button>
-        </div>
+        <div class="aiinput"><div class="aibox"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg><input id="ai-input" placeholder="Describe what you want to build..."><button id="ai-generate">Generate</button></div></div>
+        <div class="aigenerating" id="aigenerating">Generating SDK code...</div>
+        <div class="ctxset" id="ctxset-runcode"><div class="cslbl">Code to run</div><div class="csbox"><div class="csfield"><label>Code</label><textarea id="run-code" rows="4">print("Hello from Daytona!")
+x, y = 10, 20
+print(f"Sum: {x + y}")</textarea></div></div></div>
+        <div class="ctxset" id="ctxset-resources"><div class="cslbl">Resources</div><div class="csbox"><div class="frow"><div class="csfield"><label>vCPU</label><input type="number" id="res-cpu" value="2" min="1" max="16"></div><div class="csfield"><label>Memory (GiB)</label><input type="number" id="res-mem" value="4" min="1" max="32"></div><div class="csfield"><label>Disk (GiB)</label><input type="number" id="res-disk" value="10" min="1" max="100"></div></div></div></div>
+        <div class="ctxset" id="ctxset-snapshot"><div class="cslbl">Snapshot</div><div class="csbox"><div class="csfield"><label>Snapshot name</label><input type="text" id="snap-name" value="my-snapshot-name"></div></div></div>
+        <div class="ctxset" id="ctxset-image"><div class="cslbl">Declarative image</div><div class="csbox"><div class="csfield"><label>Dockerfile content</label><textarea id="img-dockerfile" rows="4">FROM python:3.12-slim
+RUN pip install requests pandas numpy
+WORKDIR /home/daytona</textarea></div></div></div>
+        <div class="ctxset" id="ctxset-volumes"><div class="cslbl">Volume</div><div class="csbox"><div class="csfield"><label>Volume name</label><input type="text" id="vol-name" value="my-volume"></div><div class="csfield"><label>Mount path</label><input type="text" id="vol-path" value="/mnt/shared"></div></div></div>
+        <div class="ctxset" id="ctxset-git"><div class="cslbl">Repository</div><div class="csbox"><div class="csfield"><label>Repository URL</label><input type="text" id="git-url" value="https://github.com/daytonaio/daytona.git"></div><div class="csfield"><label>Clone path</label><input type="text" id="git-path" value="/tmp/daytona"></div></div></div>
 
-        <div class="slbl">Sandbox settings</div>
-        <div class="scfg">
-          <div><div class="flbl">Language</div><div class="seg" id="langseg"><button class="on" data-l="python">Python</button><button data-l="ts">TypeScript</button></div></div>
-          <div class="frow">
-            <div class="fld"><div class="flbl">vCPU</div><input class="fin" id="f-cpu" type="number" min="1" max="8" value="1"></div>
-            <div class="fld"><div class="flbl">Memory (GiB)</div><input class="fin" id="f-mem" type="number" min="1" max="16" value="1"></div>
-          </div>
-          <div class="frow">
-            <div class="fld"><div class="flbl">Storage (GiB)</div><input class="fin" id="f-disk" type="number" min="1" max="50" value="1"></div>
-            <div class="fld"><div class="flbl">Auto-delete</div>
-              <select class="fin" id="f-del">
-                <option value="0">immediately</option>
-                <option value="5">5 min idle</option>
-                <option value="15">15 min idle</option>
-                <option value="-1">session end</option>
-              </select>
-            </div>
-          </div>
-          <div class="snote" id="setnote">Minimal resources — this one just runs and exits.</div>
-        </div>
-
-        <div class="adv">
-          <div class="advtitle">Advanced settings</div>
-          <div class="opgrp">
-            <div class="ophdr" onclick="toggleOp('fs')">
-              <svg class="ic" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-              <span class="opname">File System</span>
-              <svg class="ic opchev" id="chev-fs" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-              <button class="optog" id="tog-fs" onclick="event.stopPropagation();toggleTog('fs')"></button>
-            </div>
-            <div class="opcontent" id="op-fs">
-              <div class="opmethod"><div class="opmlbl">createFolder()</div><div class="opmdesc">Creates a new directory in the sandbox</div>
-                <div class="opfield"><label>Folder location *</label><input class="fin" value="workspace/new-dir" oninput="manualEdit()"></div>
-                <div class="opfield"><label>Permissions *</label><input class="fin" value="755" oninput="manualEdit()"></div>
-              </div>
-              <div class="opmethod"><div class="opmlbl">listFiles()</div><div class="opmdesc">Lists files and directories at a path</div>
-                <div class="opfield"><label>Directory location *</label><input class="fin" value="workspace/new-dir" oninput="manualEdit()"></div>
-              </div>
-              <div class="opmethod"><div class="opmlbl">deleteFile()</div><div class="opmdesc">Deletes a file from the sandbox</div>
-                <div class="opfield"><label>File location *</label><input class="fin" value="workspace/new-dir" oninput="manualEdit()"></div>
-              </div>
-            </div>
-          </div>
-          <div class="opgrp">
-            <div class="ophdr" onclick="toggleOp('git')">
-              <svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M8.3 7.2L16 8.7"/></svg>
-              <span class="opname">Git Operations</span>
-              <svg class="ic opchev" id="chev-git" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-              <button class="optog" id="tog-git" onclick="event.stopPropagation();toggleTog('git')"></button>
-            </div>
-            <div class="opcontent" id="op-git">
-              <div class="opmethod"><div class="opmlbl">clone()</div><div class="opmdesc">Clones a Git repository into the sandbox</div>
-                <div class="opfield"><label>URL *</label><input class="fin" value="https://github.com/octocat/Hello-World" oninput="manualEdit()"></div>
-                <div class="opfield"><label>Destination *</label><input class="fin" value="workspace/repo" oninput="manualEdit()"></div>
-                <div class="opfield"><label>Branch</label><input class="fin" placeholder="Specific branch" oninput="manualEdit()"></div>
-                <div class="opfield"><label>Username</label><input class="fin" placeholder="Git username" oninput="manualEdit()"></div>
-              </div>
-              <div class="opmethod"><div class="opmlbl">status()</div><div class="opmdesc">Gets current Git repository status</div>
-                <div class="opfield"><label>Repo location *</label><input class="fin" value="workspace/repo" oninput="manualEdit()"></div>
-              </div>
-              <div class="opmethod"><div class="opmlbl">branches()</div><div class="opmdesc">Lists branches in the repository</div>
-                <div class="opfield"><label>Repo location *</label><input class="fin" value="workspace/repo" oninput="manualEdit()"></div>
-              </div>
-            </div>
-          </div>
-          <div class="opgrp">
-            <div class="ophdr" onclick="toggleOp('proc')">
-              <svg class="ic" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <span class="opname">Process &amp; Code Execution</span>
-              <svg class="ic opchev" id="chev-proc" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-              <button class="optog" id="tog-proc" onclick="event.stopPropagation();toggleTog('proc')"></button>
-            </div>
-            <div class="opcontent" id="op-proc">
-              <div class="opmethod"><div class="opmlbl">codeRun()</div><div class="opmdesc">Executes code using the appropriate runtime</div>
-                <div class="opfield"><label>Code to execute *</label>
-                  <textarea class="fin" rows="3" style="resize:vertical;font-family:var(--mono)" oninput="manualEdit()">def greet(name):
-    return f"Hello, {name}!"
-print(greet("Daytona"))</textarea>
-                </div>
-              </div>
-              <div class="opmethod"><div class="opmlbl">executeCommand()</div><div class="opmdesc">Executes a shell command in the sandbox</div>
-                <div class="opfield"><label>Shell command *</label><input class="fin" value="ls -la" style="font-family:var(--mono)" oninput="manualEdit()"></div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-
-      <!-- RIGHT: fixed pane -->
       <div class="divider" id="divider"></div>
       <div class="right">
 
@@ -439,11 +404,13 @@ print(greet("Daytona"))</textarea>
           <div class="ide code-ide">
             <div class="idebar">
               <div class="lights"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
-              <div class="idetitle">Sandbox Code</div>
+              <div id="langseg" class="ide-langseg">
+                <button class="on" data-l="python"><svg width="14" height="14" viewBox="0 0 32 32" style="flex:none"><path d="M15.9 3C11.6 3 9 5 9 8.5v2.5h7v1H6.5C3.5 12 1 14.2 1 18.1c0 4 2.4 6.9 5.5 6.9H8v-3.3c0-2.8 2.4-5.2 5.5-5.2H20c2.7 0 4.5-1.8 4.5-4.5V8.5C24.5 5.5 22.2 3 15.9 3zm-3.4 3.3c.9 0 1.6.7 1.6 1.6s-.7 1.6-1.6 1.6-1.6-.7-1.6-1.6.7-1.6 1.6-1.6z" fill="#3572A5"/><path d="M16.1 29C20.4 29 23 27 23 23.5V21h-7v-1h9.5c3 0 5.5-2.2 5.5-6.1 0-4-2.4-6.9-5.5-6.9H24v3.3c0 2.8-2.4 5.2-5.5 5.2H12c-2.7 0-4.5 1.8-4.5 4.5v5.5C7.5 26.5 9.8 29 16.1 29zm3.4-3.3c-.9 0-1.6-.7-1.6-1.6s.7-1.6 1.6-1.6 1.6.7 1.6 1.6-.7 1.6-1.6 1.6z" fill="#FFD43B"/></svg>Python</button>
+                <button data-l="ts"><svg width="14" height="14" viewBox="0 0 32 32" style="flex:none;border-radius:3px;background:#3178c6"><text x="4" y="23" font-family="Arial" font-weight="bold" font-size="18" fill="white">TS</text></svg>TypeScript</button>
+              </div>
               <div class="ideact">
                 <button class="share" id="copybtn" title="Copy"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span id="copylabel"></span></button>
-                <button class="share" id="sharebtn"><svg class="ic" viewBox="0 0 24 24"><path d="M9 13a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7L10 6"/><path d="M15 11a4 4 0 00-5.7 0l-3 3A4 4 0 0012 19.7L14 18"/></svg>Share</button>
-                <span class="statuschip"><span class="dot" id="dot"></span><span id="chiptext">No sandbox</span></span>
+                <span class="statuschip" id="statuschip" style="display:none"><span class="dot" id="dot"></span><span id="chiptext">No sandbox</span></span>
                 <button id="fwdbtn" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--txt);font-size:11px;font-weight:500;padding:5px 12px;border-radius:6px;white-space:nowrap;border:1px solid rgba(255,255,255,0.35);transition:border-color .15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.35)'"><svg class="ic" id="fwdicon" style="font-size:12px" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg><span id="fwdlabel">Create sandbox</span></button>
                 <button class="run" id="runbtn"><svg class="ic" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>Run</button>
               </div>
@@ -485,9 +452,11 @@ print(greet("Daytona"))</textarea>
               </div>
             </div>
             <!-- CREATE SANDBOX CTA — anon mode only, post-run -->
+            <div class="docspanel" id="docspanel"><div class="installrow"><code id="installcmd">pip install daytona</code><button class="copyi" id="copyinstall"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span id="copyilbl">Copy</span></button></div><a class="docslink" href="https://www.daytona.io/docs/en/getting-started" target="_blank" id="docslink"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>Read the docs</a></div>
             <div class="createcta" id="createcta">
               <button id="createctabtn"><svg class="ic" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Create Sandbox</button>
             </div>
+            <div class="docspanel" id="docspanel"><div class="installrow"><code id="installcmd">pip install daytona</code><button class="copyi" id="copyinstall"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span id="copyilbl">Copy</span></button></div><a class="docslink" href="https://www.daytona.io/docs/en/getting-started" target="_blank" id="docslink"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>Read the docs</a></div>
             <div class="createcta" id="createcta"><button id="createctabtn"><svg class="ic" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Create Sandbox</button></div>
           </div>
 
@@ -497,333 +466,6 @@ print(greet("Daytona"))</textarea>
   </div>
 </div>
 
-<script>
-const T={
- hello:{p:"A real computer — created, used and gone in under 100ms.",
-  cfg:{cpu:1,mem:1,disk:1,del:0},note:"Minimal resources — this one just runs and exits.",ctx:"hello sandbox",
-  body:()=>`result = sandbox.process.code_run('print("Hello from my sandbox")')\nprint(result.output)\n\nsandbox.delete()`,
-  s:[[300,'<span style="color:#e8e8ea">Hello from my sandbox</span>'],[400,'<span style="color:#7a7a7e">Sandbox deleted.</span>']]},
- agent:{p:"An LLM wrote this. You haven't reviewed it. Daytona runs it safely so you don't have to worry.",
-  cfg:{cpu:2,mem:4,disk:3,del:0},note:"Isolated, disposable — the AI gets a computer it can't escape from.",ctx:"AI-generated code",
-  body:()=>`# Code generated by an LLM — not reviewed by a human\nagent_code = llm.generate("analyze this dataset and flag anomalies")\n\n# Daytona runs it in an isolated sandbox\n# It cannot access your files, env vars, or network\nsandbox = daytona.create()\nresult = sandbox.process.code_run(agent_code)\n\nagent.observe(result.output)\nsandbox.delete()  # nothing left behind`,
-  s:[[300,'<span style="color:#7a7a7e">LLM generated 31 lines of code…</span>'],[400,'<span style="color:#7a7a7e">Running in isolated sandbox · no host access…</span>'],[500,'<span style="color:#e8e8ea">rows: 12,440 · anomalies: 17 · report saved</span>'],[400,'<span style="color:#7a7a7e">Sandbox deleted · nothing persisted · host untouched.</span>']]},
- server:{p:"Your sandbox is a real computer on the internet.",
-  cfg:{cpu:1,mem:1,disk:2,del:15},note:"Kept alive 15 min so you can open the preview URL.",ctx:"web server",
-  body:()=>`sandbox.fs.upload_file("server.py", my_server)\nsandbox.process.exec("python server.py &")\n\nurl = sandbox.get_preview_link(3000)\nprint(url)`,
-  s:[[300,'<span style="color:#7a7a7e">Starting server on :3000…</span>'],[480,'<span style="color:#e8e8ea">Live at <a href="#" onclick="return false">3000-amused-otter.daytona.work ↗</a></span>']]},
- repo:{p:"Bring real-world code in and run it safely.",
-  cfg:{cpu:2,mem:2,disk:5,del:5},note:"More CPU, memory and disk for a real build.",ctx:"clone & run",
-  body:()=>`sandbox.git.clone("https://github.com/you/project", "app")\nsandbox.process.exec("cd app && pip install -r requirements.txt")\n\nresult = sandbox.process.exec("cd app && pytest")\nprint(result.output)`,
-  s:[[400,'<span style="color:#7a7a7e">Cloning · installing deps…</span>'],[660,'<span style="color:#e8e8ea">===== 14 passed in 2.31s =====</span>']]},
- snap:{p:"Sandboxes can remember — state survives across lifetimes.",
-  cfg:{cpu:1,mem:1,disk:3,del:-1},note:"State preserved in a snapshot; next sandbox boots from it instantly.",ctx:"snapshots",
-  body:()=>`sandbox = daytona.create()\nsandbox.fs.upload_file("state.json", data)\n\n# Freeze the environment\nsnapshot = sandbox.snapshot()\nsandbox.delete()\n\n# Restore into a new sandbox instantly\nrestored = daytona.create(snapshot=snapshot)\nprint(restored.fs.read("state.json"))`,
-  s:[[300,'<span style="color:#7a7a7e">state.json written · snapshot created…</span>'],[400,'<span style="color:#7a7a7e">Sandbox deleted.</span>'],[500,'<span style="color:#7bd88f">✓ New sandbox restored from snapshot · 92ms</span>'],[300,'<span style="color:#e8e8ea">state.json found · contents intact</span>']]}
-};
-
-let cur='hello',running=false,lang='python',highlightTimer=null,isManual=false;
-const $=id=>document.getElementById(id);
-const code=$('code'),out=$('out'),status=$('status');
-const inCpu=$('f-cpu'),inMem=$('f-mem'),inDisk=$('f-disk'),inDel=$('f-del');
-
-function delComment(v){if(v==0)return "deleted immediately";if(v==-1)return "deleted when session ends";return "kept alive, deleted after "+v+"min idle";}
-function buildCode(highlight){
- const cpu=+inCpu.value,mem=+inMem.value,disk=+inDisk.value,del=inDel.value;
- const langStr=lang==='python'?'python':'typescript';
- const hl=s=>highlight?'<span class="hl">'+s+'</span>':s;
- const header=`from daytona import Daytona, Resources, CreateSandboxParams\n\ndaytona = Daytona()\n\nparams = CreateSandboxParams(\n    language="${langStr}",\n    resources=Resources(`+hl(`cpu=${cpu}, memory=${mem}, disk=${disk}`)+`),\n    `+hl(`auto_delete_interval=${del==='-1'?0:del}`)+`,  # ${delComment(del)}\n)\nsandbox = daytona.create(params)\n\n`;
- code.innerHTML=header+T[cur].body();
- if(highlight){clearTimeout(highlightTimer);highlightTimer=setTimeout(()=>buildCode(false),650);}
-}
-function applyCfg(k){
- const c=T[k].cfg;
- inCpu.value=c.cpu;inMem.value=c.mem;inDisk.value=c.disk;inDel.value=String(c.del);
- $('setnote').textContent=T[k].note;
- inCpu.classList.toggle('changed',c.cpu!==1);inMem.classList.toggle('changed',c.mem!==1);
- inDisk.classList.toggle('changed',c.disk!==1);inDel.classList.toggle('changed',c.del!==0);
-}
-function manualEdit(){
- if(isManual)return;isManual=true;
- document.querySelectorAll('.uc').forEach(b=>b.classList.remove('active'));
- [inCpu,inMem,inDisk,inDel].forEach(el=>el.classList.remove('changed'));
-}
-function setChip(state){
- $('dot').className='dot'+(state?' '+state:'');
- $('chiptext').textContent={'':"No sandbox",creating:"Creating…",running:"Running",done:"Stopped",gone:"Deleted"}[state||''];
-}
-function resetLife(){
- document.querySelectorAll('.stage').forEach(s=>s.classList.remove('on','done'));
- document.querySelectorAll('.conn').forEach(s=>{s.classList.remove('fill');s.classList.remove('fill-instant');});
- $('ms-create').textContent='';
- const v=inDel.value;
- $('del-label').textContent=v==='-1'?'End session':(v==='0'?'Delete':'Auto-delete');
-}
-function stageOn(n){document.querySelector('.stage[data-stage="'+n+'"]').classList.add('on');}
-function stageDone(n,seg,cb){
- const s=document.querySelector('.stage[data-stage="'+n+'"]');
- s.classList.remove('on');s.classList.add('done');
- if(seg!=null){
-   const c=document.querySelector('.conn[data-seg="'+seg+'"]');
-   setTimeout(()=>{c.classList.add('fill');setTimeout(()=>{if(cb)cb();},380);},80);
- } else {if(cb)cb();}
-}
-function setFwdBtn(state){
- const btn=$('fwdbtn'),lbl=$('fwdlabel'),ico=$('fwdicon');
- if(state==='saved'){
-   lbl.textContent='Saved ✓';
-   btn.style.borderColor='var(--green)';btn.style.color='var(--green)';
-   setTimeout(()=>{lbl.textContent='Create sandbox';btn.style.borderColor='rgba(255,255,255,0.35)';btn.style.color='var(--txt)';},1800);
- } else if(state==='terminal'){setFwdBtn('default');}
- else{
-   lbl.textContent='Create sandbox';
-   ico.innerHTML='<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/>';
-   btn.style.borderColor='rgba(255,255,255,0.35)';btn.style.color='var(--txt)';
-   btn.style.background='';
- }
-}
-function sel(k){
- if(running)return;
- document.querySelectorAll('.uc').forEach(b=>b.classList.toggle('active',b.dataset.t===k));
- if(k==='ai'){$('aiform').classList.add('show');$('ai').focus();return;}
- $('aiform').classList.remove('show');
- cur=k;isManual=false;
- out.innerHTML='<span style="color:var(--txt5)">Press Run — your code executes in a real sandbox.</span>';
- status.textContent='Idle';status.style.color='var(--txt3)';
- applyCfg(k);buildCode(false);resetLife();setChip('');setFwdBtn('default');hidePostRun();
-}
-document.querySelectorAll('.uc').forEach(b=>b.addEventListener('click',()=>sel(b.dataset.t)));
-[inCpu,inMem,inDisk].forEach(el=>el.addEventListener('input',()=>{manualEdit();buildCode(true);}));
-inDel.addEventListener('change',()=>{manualEdit();buildCode(true);resetLife();});
-$('langseg').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
- $('langseg').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
- b.classList.add('on');lang=b.dataset.l;buildCode(true);
-}));
-$('runbtn').addEventListener('click',()=>{
- if(running)return;running=true;out.innerHTML='';
- resetLife();status.textContent='Running';status.style.color='var(--amber)';
- hidePostRun();
- const delV=inDel.value;
- // Stage 1: Create
- setChip('creating');stageOn('create');
- setTimeout(()=>{
-   $('ms-create').textContent='87ms';
-   // fill seg 0, then stage Run
-   stageDone('create',0,()=>{
-     setChip('running');stageOn('run');
-     // stream output
-     let d=0;T[cur].s.forEach((st)=>{d+=st[0];setTimeout(()=>{const l=document.createElement('div');l.innerHTML=st[1];out.appendChild(l);},d);});
-     // fill seg 1 after output streams, then stage Result
-     setTimeout(()=>{
-       stageDone('run',1,()=>{
-         stageOn('result');
-         setTimeout(()=>{
-           // fill seg 2, then stage Delete
-           stageDone('result',2,()=>{
-             status.textContent='Completed';status.style.color='var(--green)';running=false;
-             setFwdBtn('terminal');showPostRun(delV);
-             if(delV==='0'||delV==='-1'){
-               stageOn('del');
-               setTimeout(()=>{stageDone('del',null);setChip('gone');},500);
-             } else {setChip('done');}
-           });
-         },300);
-       });
-     },d+100);
-   });
- },600);
-});
-$('fwdbtn').addEventListener('click',()=>{ setFwdBtn('saved'); });$('copybtn').addEventListener('click',()=>{
- const text=code.innerText||code.textContent;
- navigator.clipboard.writeText(text).then(()=>{$('copylabel').textContent=' Copied';setTimeout(()=>$('copylabel').textContent='',1500);});
-});
-$('sharebtn').addEventListener('click',()=>{$('sharelabel').textContent='Copied';setTimeout(()=>$('sharelabel').textContent='Share',1500);});
-$('aigo').addEventListener('click',()=>{
- const v=$('ai').value.trim();if(!v)return;
- out.innerHTML='<span style="color:#7a7a7e">Generating for: "'+v.replace(/</g,'&lt;')+'"…</span>';
- setTimeout(()=>{cur='repo';$('aiform').classList.remove('show');isManual=false;
-   document.querySelectorAll('.uc').forEach(b=>b.classList.remove('active'));
-   applyCfg('repo');buildCode(true);resetLife();setChip('');
-   out.innerHTML='<span style="color:#e8e8ea">Code generated — review it, then press Run.</span>';
- },1000);
-});
-function toggleOp(id){const el=$('op-'+id),chev=$('chev-'+id);const open=el.classList.toggle('open');chev.classList.toggle('open',open);}
-function toggleTog(id){const tog=$('tog-'+id);tog.classList.toggle('on');if(tog.classList.contains('on')){$('op-'+id).classList.add('open');$('chev-'+id).classList.add('open');}}
-window.toggleOp=toggleOp;window.toggleTog=toggleTog;
-const SNIP={
- hello:{
-  python:`from daytona import Daytona\n\ndaytona = Daytona()\nsandbox = daytona.create()\nresult = sandbox.process.code_run('print("hello")')\nprint(result.output)\nsandbox.delete()`,
-  ts:`import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create()\nconst result = await sandbox.process.codeRun('console.log("hello")')\nconsole.log(result.output)\nawait sandbox.delete()`,
-  rest:`curl -X POST https://api.daytona.io/v1/sandbox \\\n  -H "Authorization: Bearer $DAYTONA_API_KEY" \\\n  -d '{"language":"python"}'\n\n# Then POST /v1/sandbox/{id}/run with your code`
- },
- server:{
-  python:`sandbox = daytona.create()\nsandbox.fs.upload_file("server.py", code)\nsandbox.process.exec("python server.py &")\nurl = sandbox.get_preview_link(3000)\nprint(url)  # share this URL`,
-  ts:`const sandbox = await daytona.create()\nawait sandbox.fs.uploadFile('server.py', code)\nawait sandbox.process.exec('node server.js &')\nconst url = sandbox.getPreviewLink(3000)\nconsole.log(url)`,
-  rest:`# Create sandbox, upload file, exec, then:\ncurl https://api.daytona.io/v1/sandbox/{id}/preview/3000`
- },
- repo:{
-  python:`sandbox = daytona.create()\nsandbox.git.clone("https://github.com/you/repo", "app")\nsandbox.process.exec("cd app && pip install -r requirements.txt")\nresult = sandbox.process.exec("cd app && pytest")\nprint(result.output)`,
-  ts:`const sandbox = await daytona.create()\nawait sandbox.git.clone('https://github.com/you/repo', 'app')\nawait sandbox.process.exec('cd app && npm install')\nconst result = await sandbox.process.exec('cd app && npm test')\nconsole.log(result.output)`,
-  rest:`# Clone endpoint:\nPOST /v1/sandbox/{id}/git/clone\n{"url":"https://github.com/you/repo","dest":"app"}`
- },
- agent:{
-  python:`agent_code = llm.generate(prompt)\n\nsandbox = daytona.create()\nresult = sandbox.process.code_run(agent_code)\n\nagent.observe(result.output)\nsandbox.delete()  # nothing left behind`,
-  ts:`const agentCode = await llm.generate(prompt)\n\nconst sandbox = await daytona.create()\nconst result = await sandbox.process.codeRun(agentCode)\n\nagent.observe(result.output)\nawait sandbox.delete()`,
-  rest:`POST /v1/sandbox          # create isolated env\nPOST /v1/sandbox/{id}/run  # execute AI-generated code\nDELETE /v1/sandbox/{id}    # clean up, nothing persists`
- },
- snap:{
-  python:`sandbox = daytona.create()\nsandbox.fs.upload_file("state.json", data)\n\nsnapshot = sandbox.snapshot()\nsandbox.delete()\n\nrestored = daytona.create(snapshot=snapshot)\nprint(restored.fs.read("state.json"))`,
-  ts:`const sandbox = await daytona.create()\nawait sandbox.fs.uploadFile('state.json', data)\n\nconst snapshot = await sandbox.snapshot()\nawait sandbox.delete()\n\nconst restored = await daytona.create({ snapshot })\nconsole.log(await restored.fs.read('state.json'))`,
-  rest:`POST /v1/sandbox/{id}/snapshot\nDELETE /v1/sandbox/{id}\nPOST /v1/sandbox {"snapshot": "{snapshot_id}"}`
- }
-};
-let snipLang='python';
-function updateSnip(){
- const s=SNIP[cur]||SNIP.hello;
- $('snipcode').textContent=s[snipLang]||s.python;
-}
-function showPostRun(delV){
- if(typeof annotateCode==='function')annotateCode();
- // #4 metadata
- const meta=$('meta');
- const times={hello:'87ms',server:'91ms',repo:'85ms',agent:'88ms',snap:'92ms'};
- $('meta-time').textContent=times[cur]||'88ms';
- const deleted=(delV==='0'||delV==='-1');
- const delTag=$('meta-del'), delTxt=$('meta-del-txt');
- delTxt.textContent=deleted?'auto-deleted':'kept alive';
- delTag.classList.toggle('green',deleted);
- meta.classList.add('show');
- // #5 snippet — only for signed-in
- if(!anonMode){
-   updateSnip();
-   $('snippet').classList.add('show');
- }
- // anon sign-up prompt
- if(anonMode){
-   anonRuns++;const cta=$('createcta');if(cta)cta.classList.add('show');
-   $('createcta').classList.add('show');
-   if(anonRuns>=maxRuns){
-     $('runbtn').style.opacity='0.4';
-     $('runbtn').style.pointerEvents='none';
-   }
- }
-}
-function hidePostRun(){
- $('meta').classList.remove('show');
- $('snippet').classList.remove('show');
- $('createcta').classList.remove('show');
-}
-
-// ANONYMOUS MODE
-let anonMode=false, anonRuns=0, maxRuns=5;
-function setMode(anon){
- anonMode=anon; anonRuns=0;
- document.body.classList.toggle('anon',anon);
- $('modeval').textContent=anon?'Anonymous':'Signed in';
- $('modeval').className='mval '+(anon?'anon':'auth');
- $('userchip').style.display=anon?'none':'flex';
- $('topbarsignup').style.display=anon?'block':'none';
- $('fwdbtn').style.display=anon?'none':'flex';
- $('runbtn').style.opacity=''; $('runbtn').style.pointerEvents='';
- hidePostRun(); resetLife(); setChip('');
- out.innerHTML='<span style="color:var(--txt5)">Press Run — your code executes in a real sandbox.</span>';
- status.textContent='Idle'; status.style.color='var(--txt3)';
-}
-function updatePips(){
- for(let i=0;i<5;i++){const p=$('pip'+i);if(p)p.classList.toggle('used',i<anonRuns);}
- const rr=$('runsremaining');if(rr){const left=maxRuns-anonRuns;rr.textContent=left>0?left+' run'+(left===1?'':'s')+' remaining':'No runs left';}
-}
-$('modetog').addEventListener('click',()=>setMode(!anonMode));
-['signupbanner','signupbtn','signinbtn'].forEach(id=>{
- const el=$(id); if(el) el.addEventListener('click',()=>alert('→ '+(id==='signinbtn'?'Sign-in':'Sign-up')+' page'));
-});
-$('topbarsignup').addEventListener('click',()=>alert('→ Sign-up page'));
-$('createctabtn') && $('createctabtn').addEventListener('click',()=>alert('→ Create Sandbox page'));
-
-$('sniphdr').addEventListener('click',()=>{
- $('snipbody').classList.toggle('open');$('snippychev').classList.toggle('open');
-});
-$('sniplang').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
- $('sniplang').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
- b.classList.add('on'); snipLang=b.dataset.sl; updateSnip();
-}));
-$('snipcopy').addEventListener('click',()=>{
- navigator.clipboard.writeText($('snipcode').textContent).then(()=>{
-   $('snipcopylbl').textContent='Copied'; setTimeout(()=>$('snipcopylbl').textContent='Copy',1400);
- });
-});
-
-const divider=$('divider'), left=document.querySelector('.left'), split=document.querySelector('.split');
-let dragging=false, startX=0, startW=0;
-divider.addEventListener('mousedown',e=>{
- dragging=true; startX=e.clientX; startW=left.offsetWidth;
- divider.classList.add('dragging');
- document.body.style.cursor='col-resize';
- document.body.style.userSelect='none';
-});
-document.addEventListener('mousemove',e=>{
- if(!dragging)return;
- const delta=e.clientX-startX;
- const newW=Math.max(280,Math.min(startW+delta, split.offsetWidth*0.7));
- left.style.width=newW+'px';
-});
-document.addEventListener('mouseup',()=>{
- if(!dragging)return; dragging=false;
- divider.classList.remove('dragging');
- document.body.style.cursor=''; document.body.style.userSelect='';
-});
-
-
-// TOOLTIPS
-const TIPS=[
- {m:'daytona.create(params)', t:'Spins up an isolated sandbox in ~90ms. No servers to manage.'},
- {m:'sandbox.process.code_run', t:'Executes code inside the isolated sandbox — not on your machine.'},
- {m:'sandbox.get_preview_link(3000)', t:'Returns a public URL — your sandbox is on the internet.'},
- {m:'sandbox.git.clone', t:'Clones directly into the sandbox filesystem. Your machine stays clean.'},
- {m:'sandbox.snapshot()', t:'Freezes the entire sandbox state — filesystem, packages, everything.'},
- {m:'sandbox.delete()', t:'Destroys the sandbox. No traces, no cleanup needed from you.'},
- {m:'llm.generate', t:"LLM-generated code — you never reviewed it, and that's fine."},
- {m:'auto_delete_interval=0', t:'Sandbox auto-deletes immediately after stopping.'},
-];
-function annotateCode(){
- const walker=document.createTreeWalker(code,NodeFilter.SHOW_TEXT);
- const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
- nodes.forEach(node=>{
-  const txt=node.textContent;
-  const tip=TIPS.find(({m})=>txt.includes(m));
-  if(!tip||node.parentNode.classList.contains('ctip'))return;
-  const idx=txt.indexOf(tip.m);
-  const range=document.createRange();
-  range.setStart(node,idx);range.setEnd(node,idx+tip.m.length);
-  const span=document.createElement('span');span.className='ctip';
-  span.innerHTML=tip.m+'<span class="ctiptxt">'+tip.t+'</span>';
-  range.deleteContents();range.insertNode(span);
- });
-}
-
-// SHARE DIALOG
-function setShareOpt(v){
- const isPublic=v==='public';
- $('opt-private').style.background=isPublic?'transparent':'#1e1e22';
- $('opt-private').style.borderColor=isPublic?'#2a2a2d':'#3a3a3e';
- $('opt-public').style.background=isPublic?'#1e1e22':'transparent';
- $('opt-public').style.borderColor=isPublic?'#3a3a3e':'#2a2a2d';
- $('check-private').style.display=isPublic?'none':'block';
- $('check-public').style.display=isPublic?'block':'none';
- $('shareurlrow').style.display=isPublic?'flex':'none';
-}
-function copyShareUrl(){
- navigator.clipboard.writeText('https://3000-562c6853-a694-4627-bbbc-3e1030d28e65.proxy.daytona.works/');
- $('urlcopybtn').textContent='Copied';setTimeout(()=>$('urlcopybtn').textContent='Copy',1500);
-}
-window.setShareOpt=setShareOpt;window.copyShareUrl=copyShareUrl;
-$('sharebtn').addEventListener('click',()=>{setShareOpt('private');$('shareoverlay').style.display='flex';});
-$('sharedialoclose').addEventListener('click',()=>$('shareoverlay').style.display='none');
-$('shareoverlay').addEventListener('click',(e)=>{if(e.target===$('shareoverlay'))$('shareoverlay').style.display='none';});
-
-// SHOW/HIDE POST-RUN
-
-sel('hello');
-</script>
 <div id="shareoverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center;">
   <div style="background:#161618;border:.5px solid #2a2a2d;border-radius:12px;width:400px;padding:24px;position:relative;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
@@ -849,5 +491,337 @@ sel('hello');
     </div>
   </div>
 </div>
+<script>
+const $=id=>document.getElementById(id);
+const P={
+ default:{del:true,ms:'89ms',settings:[],
+  py:()=>`from daytona import Daytona\n\ndaytona = Daytona()\nsandbox = daytona.create()\n\nprint(f"Sandbox ID: {sandbox.id}")\n\nsandbox.delete()`,
+  ts:()=>`import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create()\n\nconsole.log(\`Sandbox ID: \${sandbox.id}\`)\n\nawait sandbox.delete()`,
+  out:['<span style="color:#7bd88f">✓ Sandbox created</span>','<span style="color:#e8e8ea">Sandbox ID: a05aa05f-47a1-bc08-e7f39cc3a552</span>','<span style="color:#7a7a7e">Sandbox deleted.</span>'],
+  snip:{py:`from daytona import Daytona\n\ndaytona = Daytona()\nsandbox = daytona.create()\nprint(sandbox.id)\nsandbox.delete()`,ts:`const daytona = new Daytona()\nconst sandbox = await daytona.create()\nconsole.log(sandbox.id)\nawait sandbox.delete()`}
+ },
+ runcode:{del:true,ms:'87ms',settings:['runcode'],
+  py:()=>{const c=($('run-code')&&$('run-code').value)||"print('Hello from Daytona!')";return `from daytona import Daytona\n\ndaytona = Daytona()\nsandbox = daytona.create()\n\nresponse = sandbox.process.exec(${JSON.stringify(c)})\nprint(response.result)\n\nsandbox.delete()`;},
+  ts:()=>{const c=($('run-code')&&$('run-code').value.split('\n')[0])||"print('Hello')";return `import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create()\n\nconst r = await sandbox.process.executeCommand(${JSON.stringify(c)})\nconsole.log(r.result)\n\nawait sandbox.delete()`;},
+  out:['<span style="color:#7bd88f">✓ Sandbox ready</span>','<span style="color:#e8e8ea">Hello from Daytona!</span>','<span style="color:#e8e8ea">Sum: 30</span>','<span style="color:#7a7a7e">Sandbox deleted.</span>'],
+  snip:{py:`sandbox = daytona.create()\nresponse = sandbox.process.exec("your code here")\nprint(response.result)\nsandbox.delete()`,ts:`const sandbox = await daytona.create()\nconst r = await sandbox.process.executeCommand("your code")\nconsole.log(r.result)\nawait sandbox.delete()`}
+ },
+ resources:{del:true,ms:'91ms',settings:['resources'],
+  py:()=>{const c=($('res-cpu')&&$('res-cpu').value)||2,m=($('res-mem')&&$('res-mem').value)||4,d=($('res-disk')&&$('res-disk').value)||10;return `from daytona import Daytona, CreateSandboxFromSnapshotParams, Resources\n\ndaytona = Daytona()\nsandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(\n        resources=Resources(\n            cpu=${c},\n            memory=${m},\n            disk=${d}\n        )\n    )\n)\n\nprint(f"Sandbox ID: {sandbox.id}")\nsandbox.delete()`;},
+  ts:()=>{const c=($('res-cpu')&&$('res-cpu').value)||2,m=($('res-mem')&&$('res-mem').value)||4,d=($('res-disk')&&$('res-disk').value)||10;return `import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create({\n  resources: { cpu: ${c}, memory: ${m}, disk: ${d} }\n})\n\nconsole.log(\`Sandbox ID: \${sandbox.id}\`)\nawait sandbox.delete()`;},
+  out:['<span style="color:#7bd88f">✓ Sandbox ready with custom resources</span>','<span style="color:#e8e8ea">CPU: 2 · Memory: 4 GiB · Disk: 10 GiB</span>','<span style="color:#7a7a7e">Sandbox deleted.</span>'],
+  snip:{py:`sandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(\n        resources=Resources(cpu=2, memory=4, disk=10)\n    )\n)`,ts:`const sandbox = await daytona.create({\n  resources: { cpu: 2, memory: 4, disk: 10 }\n})`}
+ },
+ ephemeral:{del:false,ms:'88ms',settings:[],
+  py:()=>`from daytona import Daytona, CreateSandboxFromSnapshotParams\n\ndaytona = Daytona()\nsandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(\n        ephemeral=True,\n        auto_stop_interval=5\n    )\n)\n\n# Sandbox auto-deletes when stopped\nresponse = sandbox.process.exec("echo 'Running in ephemeral sandbox'")\nprint(response.result)`,
+  ts:()=>`import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create({\n  ephemeral: true,\n  autoStopInterval: 5\n})\n\n// Sandbox auto-deletes when stopped\nconst r = await sandbox.process.executeCommand("echo 'Running in ephemeral sandbox'")\nconsole.log(r.result)`,
+  out:['<span style="color:#7bd88f">✓ Ephemeral sandbox ready</span>','<span style="color:#e8e8ea">Running in ephemeral sandbox</span>','<span style="color:#7a7a7e">Auto-deletes when stopped · no cleanup needed.</span>'],
+  snip:{py:`sandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(ephemeral=True, auto_stop_interval=5)\n)\n# auto-deleted when stopped`,ts:`const sandbox = await daytona.create({ ephemeral: true, autoStopInterval: 5 })\n// auto-deleted when stopped`}
+ },
+ snapshot:{del:true,ms:'41ms',settings:['snapshot'],
+  py:()=>{const n=($('snap-name')&&$('snap-name').value)||'my-snapshot-name';return `from daytona import Daytona, CreateSandboxFromSnapshotParams\n\ndaytona = Daytona()\nsandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(\n        snapshot="${n}",\n        language="python"\n    )\n)\n\n# Dependencies pre-installed — ready instantly\nresponse = sandbox.process.exec("python -c 'import pandas; print(pandas.__version__)'")\nprint(response.result)\n\nsandbox.delete()`;},
+  ts:()=>{const n=($('snap-name')&&$('snap-name').value)||'my-snapshot-name';return `import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create({\n  snapshot: '${n}',\n  language: 'typescript'\n})\n\nconst r = await sandbox.process.executeCommand('node --version')\nconsole.log(r.result)\nawait sandbox.delete()`;},
+  out:['<span style="color:#7bd88f">✓ Restored from snapshot in <b style="font-weight:500">41ms</b></span>','<span style="color:#e8e8ea">pandas · numpy · requests — pre-installed</span>','<span style="color:#7a7a7e">Sandbox deleted.</span>'],
+  snip:{py:`sandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(snapshot="my-snapshot-name")\n)\n# deps pre-installed`,ts:`const sandbox = await daytona.create({ snapshot: 'my-snapshot-name' })\n// deps pre-installed`}
+ },
+ image:{del:true,ms:'94ms',settings:['image'],
+  py:()=>`from daytona import Daytona, CreateSandboxFromSnapshotParams, Image\n\ndaytona = Daytona()\n\nimage = Image.base("python:3.12-slim").run_commands(\n    "pip install requests pandas numpy"\n).workdir("/home/daytona")\n\nsandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(image=image)\n)\n\nresponse = sandbox.process.exec("python -c 'import pandas; print(pandas.__version__)'")\nprint(response.result)\n\nsandbox.delete()`,
+  ts:()=>`import { Daytona, Image } from '@daytona/sdk'\n\nconst daytona = new Daytona()\n\nconst image = Image.base('python:3.12-slim')\n  .runCommands('pip install requests pandas numpy')\n  .workdir('/home/daytona')\n\nconst sandbox = await daytona.create({ image })\n\nconst r = await sandbox.process.executeCommand('echo "deps ready"')\nconsole.log(r.result)\nawait sandbox.delete()`,
+  out:['<span style="color:#7bd88f">✓ Image built · sandbox ready</span>','<span style="color:#e8e8ea">pandas ready</span>','<span style="color:#7a7a7e">Sandbox deleted.</span>'],
+  snip:{py:`image = Image.base("python:3.12-slim")\\\n    .run_commands("pip install requests pandas")\\\n    .workdir("/home/daytona")\nsandbox = daytona.create(CreateSandboxFromSnapshotParams(image=image))`,ts:`const image = Image.base('python:3.12-slim')\n  .runCommands('pip install requests pandas')\nconst sandbox = await daytona.create({ image })`}
+ },
+ volumes:{del:true,ms:'92ms',settings:['volumes'],
+  py:()=>{const n=($('vol-name')&&$('vol-name').value)||'my-volume',p=($('vol-path')&&$('vol-path').value)||'/mnt/shared';return `from daytona import Daytona, CreateSandboxFromSnapshotParams, VolumeMount\n\ndaytona = Daytona()\nsandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(\n        volumes=[\n            VolumeMount(\n                volume_name="${n}",\n                mount_path="${p}"\n            )\n        ]\n    )\n)\n\nsandbox.fs.upload_file(b"shared data", "${p}/data.txt")\nprint("Data written to shared volume")\n\nsandbox.delete()`;},
+  ts:()=>{const n=($('vol-name')&&$('vol-name').value)||'my-volume',p=($('vol-path')&&$('vol-path').value)||'/mnt/shared';return `import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create({\n  volumes: [{ volumeName: '${n}', mountPath: '${p}' }]\n})\n\nawait sandbox.fs.uploadFile(Buffer.from("shared data"), "${p}/data.txt")\nconsole.log("Data written to shared volume")\nawait sandbox.delete()`;},
+  out:['<span style="color:#7bd88f">✓ Sandbox ready · volume mounted</span>','<span style="color:#e8e8ea">Data written to shared volume</span>','<span style="color:#7a7a7e">Volume persists · sandbox deleted.</span>'],
+  snip:{py:`sandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(\n        volumes=[VolumeMount(volume_name="my-volume", mount_path="/mnt/shared")]\n    )\n)`,ts:`const sandbox = await daytona.create({\n  volumes: [{ volumeName: 'my-volume', mountPath: '/mnt/shared' }]\n})`}
+ },
+ git:{del:true,ms:'86ms',settings:['git'],
+  py:()=>{const u=($('git-url')&&$('git-url').value)||'https://github.com/daytonaio/daytona.git',p=($('git-path')&&$('git-path').value)||'/tmp/daytona';return `from daytona import Daytona\n\ndaytona = Daytona()\nsandbox = daytona.create()\n\nsandbox.git.clone(\n    "${u}",\n    "${p}"\n)\n\nstatus = sandbox.git.status("${p}")\nprint(f"Branch: {status.current_branch}")\n\nsandbox.delete()`;},
+  ts:()=>{const u=($('git-url')&&$('git-url').value)||'https://github.com/daytonaio/daytona.git',p=($('git-path')&&$('git-path').value)||'/tmp/daytona';return `import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create()\n\nawait sandbox.git.clone('${u}', '${p}')\n\nconst status = await sandbox.git.status('${p}')\nconsole.log(\`Branch: \${status.currentBranch}\`)\nawait sandbox.delete()`;},
+  out:['<span style="color:#7bd88f">✓ Sandbox ready</span>','<span style="color:#7a7a7e">Cloning repository…</span>','<span style="color:#e8e8ea">Branch: main</span>','<span style="color:#7a7a7e">Sandbox deleted.</span>'],
+  snip:{py:`sandbox.git.clone(\n    "https://github.com/your/repo.git", "/tmp/repo"\n)\nstatus = sandbox.git.status("/tmp/repo")\nprint(status.current_branch)`,ts:`await sandbox.git.clone('https://github.com/your/repo.git', '/tmp/repo')\nconst s = await sandbox.git.status('/tmp/repo')\nconsole.log(s.currentBranch)`}
+ }
+};
+let cur='default',lang='python',running=false,snipLang='python';
+const code=$('code'),out=$('out'),status=$('status');
+
+// ── Syntax highlighter ──────────────────────────────────────────────────────
+const SH={
+ colors:{
+  kw:'#c792ea',      // purple  — keywords
+  kw2:'#89ddff',     // cyan    — from/import/const/let/await
+  builtin:'#82aaff', // blue    — builtins / known functions
+  cls:'#ffcb6b',     // amber   — class names / constructors
+  fn:'#82aaff',      // blue    — function calls
+  str:'#c3e88d',     // green   — strings
+  num:'#f78c6c',     // orange  — numbers
+  cmt:'#546e7a',     // grey    — comments
+  op:'#89ddff',      // cyan    — operators / punctuation
+  param:'#f07178',   // red     — named params / properties
+  plain:'#d6d6d9',   // default
+ },
+ py:{
+  keywords:['False','None','True','and','as','assert','async','await','break','class','continue','def','del','elif','else','except','finally','for','global','if','import','in','is','lambda','nonlocal','not','or','pass','raise','return','try','while','with','yield'],
+  kw2:['from','import'],
+  builtins:['print','len','range','type','str','int','float','list','dict','set','tuple','bool','open','input','super','property','staticmethod','classmethod','enumerate','zip','map','filter','sorted','reversed','abs','max','min','sum','hasattr','getattr','setattr','isinstance','issubclass','repr','vars','dir'],
+  classes:['Daytona','CreateSandboxFromSnapshotParams','Resources','VolumeMount','Image','Exception','BaseException'],
+ },
+ ts:{
+  keywords:['break','case','catch','class','continue','debugger','default','delete','do','else','enum','export','extends','finally','for','function','if','implements','in','instanceof','interface','let','new','of','package','private','protected','public','return','static','super','switch','this','throw','try','typeof','var','void','while','with','yield','type','namespace','declare','abstract','readonly','as','from','satisfies'],
+  kw2:['const','import','export','await','async'],
+  builtins:['console','Promise','Array','Object','String','Number','Boolean','Math','JSON','Buffer','process','require','setTimeout','setInterval','clearTimeout','clearInterval','fetch'],
+  classes:['Daytona','Image','Error'],
+ },
+ esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');},
+ span(color,text){return `<span style="color:${color}">${this.esc(text)}</span>`;},
+ tokenizePy(src){
+  const c=this.colors,kws=new Set(this.py.keywords),kw2s=new Set(this.py.kw2),blt=new Set(this.py.builtins),cls=new Set(this.py.classes);
+  let out='',i=0;
+  while(i<src.length){
+   // comment
+   if(src[i]==='#'){let j=i;while(j<src.length&&src[j]!=='\n')j++;out+=this.span(c.cmt,src.slice(i,j));i=j;continue;}
+   // triple-quoted string
+   if(src.slice(i,i+3)==='"""'||src.slice(i,i+3)==="'''"){const q=src.slice(i,i+3);let j=i+3;while(j<src.length&&src.slice(j,j+3)!==q)j++;j+=3;out+=this.span(c.str,src.slice(i,j));i=j;continue;}
+   // f-string prefix
+   if((src[i]==='f'||src[i]==='b'||src[i]==='r')&&(src[i+1]==='"'||src[i+1]==="'")){const q=src[i+1];let j=i+2;while(j<src.length&&src[j]!==q&&src[j]!=='\n'){if(src[j]==='\\')j++;j++;}j++;out+=this.span(c.str,src.slice(i,j));i=j;continue;}
+   // string
+   if(src[i]==='"'||src[i]==="'"){const q=src[i];let j=i+1;while(j<src.length&&src[j]!==q&&src[j]!=='\n'){if(src[j]==='\\')j++;j++;}j++;out+=this.span(c.str,src.slice(i,j));i=j;continue;}
+   // number
+   if(/[0-9]/.test(src[i])){let j=i;while(j<src.length&&/[0-9._xXoObBa-fA-F]/.test(src[j]))j++;out+=this.span(c.num,src.slice(i,j));i=j;continue;}
+   // identifier / keyword
+   if(/[a-zA-Z_]/.test(src[i])){let j=i;while(j<src.length&&/[a-zA-Z0-9_]/.test(src[j]))j++;const w=src.slice(i,j);
+    const isCall=src[j]==='(';const isMember=src[i-1]==='.';const isAssign=src[j]==='=';
+    if(kw2s.has(w))out+=this.span(c.kw2,w);
+    else if(kws.has(w))out+=this.span(c.kw,w);
+    else if(cls.has(w))out+=this.span(c.cls,w);
+    else if(blt.has(w))out+=this.span(c.builtin,w);
+    else if(isCall)out+=this.span(c.fn,w);
+    else if(isMember)out+=this.span(c.param,w);
+    else out+=this.span(c.plain,w);
+    i=j;continue;}
+   // operator/punctuation
+   if(/[=+\-*/<>!&|^~%@,.:[\]{}();]/.test(src[i])){out+=this.span(c.op,src[i]);i++;continue;}
+   out+=this.esc(src[i]);i++;
+  }
+  return out;
+ },
+ tokenizeTS(src){
+  const c=this.colors,kws=new Set(this.ts.keywords),kw2s=new Set(this.ts.kw2),blt=new Set(this.ts.builtins),cls=new Set(this.ts.classes);
+  let out='',i=0;
+  while(i<src.length){
+   // line comment
+   if(src.slice(i,i+2)==='//'){let j=i;while(j<src.length&&src[j]!=='\n')j++;out+=this.span(c.cmt,src.slice(i,j));i=j;continue;}
+   // block comment
+   if(src.slice(i,i+2)==='/*'){let j=i+2;while(j<src.length&&src.slice(j,j+2)!=='*/')j++;j+=2;out+=this.span(c.cmt,src.slice(i,j));i=j;continue;}
+   // template literal
+   if(src[i]==='`'){let j=i+1;while(j<src.length&&src[j]!=='`'){if(src[j]==='\\')j++;j++;}j++;out+=this.span(c.str,src.slice(i,j));i=j;continue;}
+   // string
+   if(src[i]==='"'||src[i]==="'"){const q=src[i];let j=i+1;while(j<src.length&&src[j]!==q&&src[j]!=='\n'){if(src[j]==='\\')j++;j++;}j++;out+=this.span(c.str,src.slice(i,j));i=j;continue;}
+   // number
+   if(/[0-9]/.test(src[i])){let j=i;while(j<src.length&&/[0-9._xXoObBa-fA-F]/.test(src[j]))j++;out+=this.span(c.num,src.slice(i,j));i=j;continue;}
+   // identifier / keyword
+   if(/[a-zA-Z_$]/.test(src[i])){let j=i;while(j<src.length&&/[a-zA-Z0-9_$]/.test(src[j]))j++;const w=src.slice(i,j);
+    const isCall=src[j]==='(';const isMember=src[i-1]==='.';
+    if(kw2s.has(w))out+=this.span(c.kw2,w);
+    else if(kws.has(w))out+=this.span(c.kw,w);
+    else if(cls.has(w))out+=this.span(c.cls,w);
+    else if(blt.has(w))out+=this.span(c.builtin,w);
+    else if(isCall)out+=this.span(c.fn,w);
+    else if(isMember)out+=this.span(c.param,w);
+    else out+=this.span(c.plain,w);
+    i=j;continue;}
+   // operator/punctuation
+   if(/[=+\-*/<>!&|^~%@,.:[\]{}();?]/.test(src[i])){out+=this.span(c.op,src[i]);i++;continue;}
+   out+=this.esc(src[i]);i++;
+  }
+  return out;
+ },
+ highlight(src,language){
+  return language==='python'?this.tokenizePy(src):this.tokenizeTS(src);
+ }
+};
+
+const TIPS=[
+ {m:'daytona.create()',t:'Spins up an isolated sandbox in ~90ms.'},
+ {m:'sandbox.process.exec(',t:'Executes a shell command inside the isolated sandbox.'},
+ {m:'sandbox.process.executeCommand(',t:'Executes a command in the isolated sandbox.'},
+ {m:'sandbox.git.clone(',t:'Clones directly into the sandbox filesystem.'},
+ {m:'sandbox.fs.upload_file(',t:'Uploads a file directly into the sandbox.'},
+ {m:'ephemeral=True',t:'Sandbox auto-deletes when stopped — zero cleanup.'},
+ {m:'VolumeMount(',t:'Mounts a persistent volume — survives sandbox deletion.'},
+ {m:'sandbox.delete()',t:'Destroys the sandbox. No traces left behind.'},
+ {m:'Image.base(',t:'Defines the environment declaratively — like a Dockerfile.'},
+ {m:'CreateSandboxFromSnapshotParams(',t:'Creates sandbox with custom parameters.'},
+];
+
+function buildCode(){
+ const fn=P[cur][lang==='python'?'py':'ts'];
+ const src=fn();
+ // Store raw source for manualEdit / copy
+ code._src=src;
+ code.innerHTML=SH.highlight(src,lang==='python'?'python':'ts');
+ annotateCode();
+}
+
+function annotateCode(){
+ // Walk text nodes and wrap tooltip targets
+ TIPS.forEach(tip=>{
+  const walker=document.createTreeWalker(code,NodeFilter.SHOW_TEXT);
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+   if(node.parentNode.classList.contains('ctip'))return;
+   const txt=node.textContent;if(!txt.includes(tip.m))return;
+   const idx=txt.indexOf(tip.m);
+   const range=document.createRange();
+   range.setStart(node,idx);range.setEnd(node,idx+tip.m.length);
+   const span=document.createElement('span');span.className='ctip';
+   // preserve child color spans inside the tip match
+   span.innerHTML=SH.esc(tip.m)+'<span class="ctiptxt">'+tip.t+'</span>';
+   range.deleteContents();range.insertNode(span);
+  });
+ });
+}
+
+function manualEdit(){
+ document.querySelectorAll('.uc').forEach(b=>b.classList.remove('active'));
+ cur=null;
+}
+function sel(k){
+ if(running)return;cur=k;
+ document.querySelectorAll('.uc').forEach(b=>b.classList.toggle('active',b.dataset.t===k));
+ document.querySelectorAll('.ctxset').forEach(el=>el.classList.remove('show'));
+ (P[k].settings||[]).forEach(s=>{const el=$('ctxset-'+s);if(el)el.classList.add('show');});
+ out.innerHTML='<span style="color:var(--txt5)">Press Run — your code executes in a real sandbox.</span>';
+ status.textContent='Idle';status.style.color='var(--txt3)';
+ resetLife();setChip('');hidePost();buildCode();
+}
+document.querySelectorAll('.uc').forEach(b=>b.addEventListener('click',()=>sel(b.dataset.t)));
+$('langseg').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+ $('langseg').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+ b.classList.add('on');lang=b.dataset.l;buildCode();
+}));
+['run-code','res-cpu','res-mem','res-disk','snap-name','img-dockerfile','vol-name','vol-path','git-url','git-path'].forEach(id=>{
+ const el=$(id);if(el){el.addEventListener('input',()=>buildCode());el.addEventListener('change',()=>buildCode());}
+});
+function setChip(state){
+ const chip=$('statuschip');
+ $('dot').className='dot'+(state?' '+state:'');
+ $('chiptext').textContent={'':"No sandbox",creating:"Creating…",running:"Running",done:"Stopped",gone:"Deleted"}[state||''];
+ chip.style.display=(state==='creating'||state==='running')?'flex':'none';
+}
+function resetLife(){
+ document.querySelectorAll('.stage').forEach(s=>s.classList.remove('on','done'));
+ document.querySelectorAll('.conn').forEach(c=>c.classList.remove('fill'));
+ $('ms-create').textContent='';
+ $('del-label').textContent=P[cur]&&P[cur].del?'Delete':'Auto-delete';
+}
+function stageOn(n){document.querySelector('.stage[data-stage="'+n+'"]').classList.add('on');}
+function stageDone(n,seg,cb){
+ const s=document.querySelector('.stage[data-stage="'+n+'"]');
+ s.classList.remove('on');s.classList.add('done');
+ if(seg!=null){const c=document.querySelector('.conn[data-seg="'+seg+'"]');setTimeout(()=>{c.classList.add('fill');setTimeout(()=>{if(cb)cb();},380);},80);}
+ else{if(cb)cb();}
+}
+$('runbtn').addEventListener('click',()=>{
+ if(running)return;running=true;out.innerHTML='';hidePost();
+ status.textContent='Running';status.style.color='var(--amber)';
+ resetLife();setChip('creating');stageOn('create');
+ const preset=P[cur]||{ms:'~ms',del:false,out:['<span style="color:#7bd88f">✓ Sandbox ready</span>','<span style="color:#e8e8ea">Code executed successfully.</span>'],snip:{py:'',ts:''}};
+ setTimeout(()=>{
+  $('ms-create').textContent=preset.ms;
+  stageDone('create',0,()=>{
+   setChip('running');stageOn('run');
+   let d=0;preset.out.forEach((line,i)=>{d+=i===0?300:450;setTimeout(()=>{const el=document.createElement('div');el.innerHTML=line;out.appendChild(el);},d);});
+   setTimeout(()=>{
+    stageDone('run',1,()=>{
+     stageOn('result');
+     setTimeout(()=>{
+      stageDone('result',2,()=>{
+       status.textContent='Completed';status.style.color='var(--green)';running=false;
+       $('meta-time').textContent=preset.ms;
+       $('meta-del-txt').textContent=preset.del?'auto-deleted':'persists';
+       $('meta-del').classList.toggle('green',preset.del);
+       $('meta').classList.add('show');
+       if(!anonMode){$('snipcode').textContent=preset.snip[snipLang]||preset.snip.py;$('snippet').classList.add('show');}
+
+       $('installcmd').textContent=lang==='python'?'pip install daytona':'npm install @daytona/sdk';
+       $('docspanel').classList.add('show');
+       if(preset.del){stageOn('del');setTimeout(()=>{stageDone('del');setChip('gone');},500);}
+       else{setChip('done');}
+      });
+     },300);
+    });
+   },d+100);
+  });
+ },600);
+});
+function hidePost(){
+ $('meta').classList.remove('show');$('snippet').classList.remove('show');
+ $('createcta').classList.remove('show');$('docspanel').classList.remove('show');
+}
+$('copybtn').addEventListener('click',()=>{navigator.clipboard.writeText(code.innerText).then(()=>{$('copylabel').textContent=' Copied';setTimeout(()=>$('copylabel').textContent='',1500);});});
+$('copyinstall').addEventListener('click',()=>{navigator.clipboard.writeText($('installcmd').textContent).then(()=>{$('copyilbl').textContent='Copied';setTimeout(()=>$('copyilbl').textContent='Copy',1400);});});
+$('sniphdr').addEventListener('click',()=>{$('snipbody').classList.toggle('open');$('snippychev').classList.toggle('open');});
+$('sniplang').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+ $('sniplang').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+ b.classList.add('on');snipLang=b.dataset.sl;$('snipcode').textContent=P[cur].snip[snipLang]||P[cur].snip.py;
+}));
+$('snipcopy').addEventListener('click',()=>{navigator.clipboard.writeText($('snipcode').textContent).then(()=>{$('snipcopylbl').textContent='Copied';setTimeout(()=>$('snipcopylbl').textContent='Copy',1400);});});
+// anon mode removed
+const ctabtn=$('createctabtn');if(ctabtn)ctabtn.addEventListener('click',()=>alert('Create Sandbox'));
+function setShareOpt(v){
+ const pub=v==='public';
+ $('opt-private').style.background=pub?'transparent':'#1e1e22';$('opt-private').style.borderColor=pub?'#2a2a2d':'#3a3a3e';
+ $('opt-public').style.background=pub?'#1e1e22':'transparent';$('opt-public').style.borderColor=pub?'#3a3a3e':'#2a2a2d';
+ $('check-private').style.display=pub?'none':'block';$('check-public').style.display=pub?'block':'none';
+ $('shareurlrow').style.display=pub?'flex':'none';
+}
+function copyShareUrl(){navigator.clipboard.writeText('https://3000-a05aa05f-47a1-4f8f-bc08-e7f39cc3a552.proxy.daytona.works/');$('urlcopybtn').textContent='Copied';setTimeout(()=>$('urlcopybtn').textContent='Copy',1500);}
+window.setShareOpt=setShareOpt;window.copyShareUrl=copyShareUrl;
+$('sharedialoclose').addEventListener('click',()=>$('shareoverlay').classList.remove('open'));
+$('shareoverlay').addEventListener('click',e=>{if(e.target===$('shareoverlay'))$('shareoverlay').classList.remove('open');});
+$('ai-generate').addEventListener('click',async()=>{
+ const prompt=$('ai-input').value.trim();if(!prompt)return;
+ const btn=$('ai-generate'),gen=$('aigenerating');btn.disabled=true;gen.classList.add('show');
+ document.querySelectorAll('.uc').forEach(b=>b.classList.remove('active'));
+ document.querySelectorAll('.ctxset').forEach(el=>el.classList.remove('show'));
+ try{
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,
+    system:`You generate Daytona SDK code in ${lang==='python'?'Python':'TypeScript'}. Output ONLY code, no explanation, no markdown fences. Python: from daytona import Daytona, CreateSandboxFromSnapshotParams, Resources, VolumeMount, Image. TypeScript: import { Daytona } from '@daytona/sdk'. Always end with sandbox.delete() unless ephemeral.`,
+    messages:[{role:'user',content:`Generate Daytona SDK code for: ${prompt}`}]})});
+  const data=await res.json();
+  const src=(data.content||[]).find(b=>b.type==='text')?.text||'# Error';
+  code.innerHTML=SH.highlight(src,lang==='python'?'python':'ts');
+  setTimeout(annotateCode,0);$('ai-input').value='';
+  out.innerHTML='<span style="color:var(--txt5)">Code generated — press Run to execute.</span>';
+  resetLife();setChip('');
+ }catch(e){code.innerHTML=SH.highlight('# Error: '+e.message,'python');}
+ btn.disabled=false;gen.classList.remove('show');
+});
+$('ai-input').addEventListener('keydown',e=>{if(e.key==='Enter')$('ai-generate').click();});
+const divider=$('divider'), left=document.querySelector('.left'), split=document.querySelector('.split');
+let dragging=false, startX=0, startW=0;
+divider.addEventListener('mousedown',e=>{
+ dragging=true; startX=e.clientX; startW=left.offsetWidth;
+ divider.classList.add('dragging');
+ document.body.style.cursor='col-resize';
+ document.body.style.userSelect='none';
+});
+document.addEventListener('mousemove',e=>{
+ if(!dragging)return;
+ const delta=e.clientX-startX;
+ const newW=Math.max(280,Math.min(startW+delta, split.offsetWidth*0.7));
+ left.style.width=newW+'px';
+});
+document.addEventListener('mouseup',()=>{
+ if(!dragging)return; dragging=false;
+ divider.classList.remove('dragging');
+ document.body.style.cursor=''; document.body.style.userSelect='';
+});
+sel('default');
+
+</script>
 </body>
 </html>
