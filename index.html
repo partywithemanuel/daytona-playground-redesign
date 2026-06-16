@@ -312,8 +312,18 @@
   .ide-langseg button.on{background:#2a2a30;color:var(--txt);box-shadow:0 1px 3px rgba(0,0,0,.4);}
   .ide-langseg button:hover:not(.on){color:var(--txt2);}
   body.anon .nav-auth{display:none;}
+  /* TOAST */
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a1e;border:.5px solid #3a3a3e;border-radius:10px;padding:11px 16px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--txt2);box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:200;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+  .toast .tdot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1s infinite;flex:none;}
+  .toast a{color:var(--accent);text-decoration:none;font-weight:500;}
+  .toast a:hover{text-decoration:underline;}
+  .toast .tclose{margin-left:8px;cursor:pointer;color:var(--txt4);font-size:16px;line-height:1;background:none;border:none;padding:0 2px;}
+  /* INPUT VALIDATION */
+  .csfield input.invalid,.csfield select.invalid{border-color:#c0404a !important;color:#e07878 !important;}
+  .valerr{display:none;font-size:9.5px;color:#c0404a;margin-top:3px;}
+  .valerr.show{display:block;}
 </style>
-</head>
 <body>
 <div class="app">
 
@@ -368,19 +378,40 @@
           <button class="uc" data-t="image"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h7"/><rect x="13" y="14" width="8" height="7" rx="1"/></svg></div><div class="nm">Declarative image</div><div class="ds">Define deps programmatically</div></button>
           <button class="uc" data-t="volumes"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div><div class="nm">With volumes</div><div class="ds">Share data across sandboxes</div></button>
           <button class="uc" data-t="git"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M8.3 7.2L16 8.7"/></svg></div><div class="nm">Clone a Git repo</div><div class="ds">Version control ready</div></button>
+          <button class="uc" data-t="filesystem"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h10"/><rect x="14" y="14" width="8" height="7" rx="1"/><path d="M17 14v2h2"/></svg></div><div class="nm">File system</div><div class="ds">Create, list, delete files</div></button>
+          <button class="uc ai-card" data-t="ai"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></div><div class="nm">Generate with AI</div><div class="ds">Describe what to build</div></button>
         </div>
-        <div class="aiinput"><div class="aibox"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg><input id="ai-input" placeholder="Describe what you want to build..."><button id="ai-generate">Generate</button></div></div>
+        <div class="aiinput" id="aiinput" style="display:none;padding:10px 20px 0;"><div class="aibox"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg><input id="ai-input" placeholder="Describe what you want to build..."><button id="ai-generate">Generate</button></div></div>
         <div class="aigenerating" id="aigenerating">Generating SDK code...</div>
         <div class="ctxset" id="ctxset-runcode"><div class="cslbl">Code to run</div><div class="csbox"><div class="csfield"><label>Code</label><textarea id="run-code" rows="4">print("Hello from Daytona!")
 x, y = 10, 20
 print(f"Sum: {x + y}")</textarea></div></div></div>
-        <div class="ctxset" id="ctxset-resources"><div class="cslbl">Resources</div><div class="csbox"><div class="frow"><div class="csfield"><label>vCPU</label><input type="number" id="res-cpu" value="2" min="1" max="16"></div><div class="csfield"><label>Memory (GiB)</label><input type="number" id="res-mem" value="4" min="1" max="32"></div><div class="csfield"><label>Disk (GiB)</label><input type="number" id="res-disk" value="10" min="1" max="100"></div></div></div></div>
+        <div class="ctxset" id="ctxset-resources"><div class="cslbl">Resources</div><div class="csbox"><div class="frow">
+          <div class="csfield"><label>vCPU</label><input type="number" id="res-cpu" value="2" min="1" max="8"><div class="valerr" id="err-cpu">Max 8 vCPU</div></div>
+          <div class="csfield"><label>Memory (GiB)</label><input type="number" id="res-mem" value="4" min="1" max="8"><div class="valerr" id="err-mem">Max 8 GiB</div></div>
+          <div class="csfield"><label>Disk (GiB)</label><input type="number" id="res-disk" value="10" min="1" max="8"><div class="valerr" id="err-disk">Max 8 GiB</div></div>
+        </div></div></div>
         <div class="ctxset" id="ctxset-snapshot"><div class="cslbl">Snapshot</div><div class="csbox"><div class="csfield"><label>Snapshot name</label><input type="text" id="snap-name" value="my-snapshot-name"></div></div></div>
         <div class="ctxset" id="ctxset-image"><div class="cslbl">Declarative image</div><div class="csbox"><div class="csfield"><label>Dockerfile content</label><textarea id="img-dockerfile" rows="4">FROM python:3.12-slim
 RUN pip install requests pandas numpy
 WORKDIR /home/daytona</textarea></div></div></div>
         <div class="ctxset" id="ctxset-volumes"><div class="cslbl">Volume</div><div class="csbox"><div class="csfield"><label>Volume name</label><input type="text" id="vol-name" value="my-volume"></div><div class="csfield"><label>Mount path</label><input type="text" id="vol-path" value="/mnt/shared"></div></div></div>
         <div class="ctxset" id="ctxset-git"><div class="cslbl">Repository</div><div class="csbox"><div class="csfield"><label>Repository URL</label><input type="text" id="git-url" value="https://github.com/daytonaio/daytona.git"></div><div class="csfield"><label>Clone path</label><input type="text" id="git-path" value="/tmp/daytona"></div></div></div>
+        <div class="ctxset" id="ctxset-filesystem"><div class="cslbl">File system operations</div><div class="csbox">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--txt2);margin-bottom:2px;">createFolder()</div>
+          <div style="font-size:9.5px;color:var(--txt4);margin-bottom:8px;line-height:1.4;">Creates a new directory in the Sandbox at the specified path with the given permissions</div>
+          <div class="frow" style="margin-bottom:12px;">
+            <div class="csfield"><label>Folder location*</label><input type="text" id="fs-folder" value="workspace/new-dir"></div>
+            <div class="csfield"><label>Permissions*</label><input type="text" id="fs-perms" value="755" maxlength="4"></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--txt2);margin-bottom:2px;">listFiles()</div>
+          <div style="font-size:9.5px;color:var(--txt4);margin-bottom:8px;line-height:1.4;">Lists files and directories in a given path and returns their information</div>
+          <div style="margin-bottom:12px;"><div class="csfield"><label>Directory location*</label><input type="text" id="fs-listpath" value="workspace/new-dir"></div></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--txt2);margin-bottom:2px;">deleteFile()</div>
+          <div style="font-size:9.5px;color:var(--txt4);margin-bottom:8px;line-height:1.4;">Deletes a file from the Sandbox</div>
+          <div class="csfield"><label>File location*</label><input type="text" id="fs-delpath" value="workspace/new-dir"></div>
+          <div class="csfield" style="margin-top:8px;"><label style="display:flex;align-items:center;gap:7px;cursor:pointer;color:var(--txt3);font-size:10.5px;"><input type="checkbox" id="fs-deldir" checked style="accent-color:var(--accent);width:14px;height:14px;">Delete directory</label></div>
+        </div></div>
 
       </div>
       <div class="divider" id="divider"></div>
@@ -403,7 +434,7 @@ WORKDIR /home/daytona</textarea></div></div></div>
           <!-- SANDBOX CODE window -->
           <div class="ide code-ide">
             <div class="idebar">
-              <div class="lights"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+              <div class="lights"><i style="background:#3a3a3e"></i><i style="background:#3a3a3e"></i><i style="background:#3a3a3e"></i></div>
               <div id="langseg" class="ide-langseg">
                 <button class="on" data-l="python"><svg width="14" height="14" viewBox="0 0 32 32" style="flex:none"><path d="M15.9 3C11.6 3 9 5 9 8.5v2.5h7v1H6.5C3.5 12 1 14.2 1 18.1c0 4 2.4 6.9 5.5 6.9H8v-3.3c0-2.8 2.4-5.2 5.5-5.2H20c2.7 0 4.5-1.8 4.5-4.5V8.5C24.5 5.5 22.2 3 15.9 3zm-3.4 3.3c.9 0 1.6.7 1.6 1.6s-.7 1.6-1.6 1.6-1.6-.7-1.6-1.6.7-1.6 1.6-1.6z" fill="#3572A5"/><path d="M16.1 29C20.4 29 23 27 23 23.5V21h-7v-1h9.5c3 0 5.5-2.2 5.5-6.1 0-4-2.4-6.9-5.5-6.9H24v3.3c0 2.8-2.4 5.2-5.5 5.2H12c-2.7 0-4.5 1.8-4.5 4.5v5.5C7.5 26.5 9.8 29 16.1 29zm3.4-3.3c-.9 0-1.6-.7-1.6-1.6s.7-1.6 1.6-1.6 1.6.7 1.6 1.6-.7 1.6-1.6 1.6z" fill="#FFD43B"/></svg>Python</button>
                 <button data-l="ts"><svg width="14" height="14" viewBox="0 0 32 32" style="flex:none;border-radius:3px;background:#3178c6"><text x="4" y="23" font-family="Arial" font-weight="bold" font-size="18" fill="white">TS</text></svg>TypeScript</button>
@@ -411,7 +442,6 @@ WORKDIR /home/daytona</textarea></div></div></div>
               <div class="ideact">
                 <button class="share" id="copybtn" title="Copy"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span id="copylabel"></span></button>
                 <span class="statuschip" id="statuschip" style="display:none"><span class="dot" id="dot"></span><span id="chiptext">No sandbox</span></span>
-                <button id="fwdbtn" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--txt);font-size:11px;font-weight:500;padding:5px 12px;border-radius:6px;white-space:nowrap;border:1px solid rgba(255,255,255,0.35);transition:border-color .15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.35)'"><svg class="ic" id="fwdicon" style="font-size:12px" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg><span id="fwdlabel">Create sandbox</span></button>
                 <button class="run" id="runbtn"><svg class="ic" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>Run</button>
               </div>
             </div>
@@ -457,13 +487,18 @@ WORKDIR /home/daytona</textarea></div></div></div>
               <button id="createctabtn"><svg class="ic" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Create Sandbox</button>
             </div>
             <div class="docspanel" id="docspanel"><div class="installrow"><code id="installcmd">pip install daytona</code><button class="copyi" id="copyinstall"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span id="copyilbl">Copy</span></button></div><a class="docslink" href="https://www.daytona.io/docs/en/getting-started" target="_blank" id="docslink"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>Read the docs</a></div>
-            <div class="createcta" id="createcta"><button id="createctabtn"><svg class="ic" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Create Sandbox</button></div>
           </div>
 
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div id="toast" class="toast">
+  <span class="tdot"></span>
+  <span>Sandbox created and running in <a href="#" onclick="return false;">Sandboxes</a></span>
+  <button class="tclose" onclick="hideToast()">×</button>
 </div>
 
 <div id="shareoverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center;">
@@ -525,10 +560,10 @@ const P={
   snip:{py:`sandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(snapshot="my-snapshot-name")\n)\n# deps pre-installed`,ts:`const sandbox = await daytona.create({ snapshot: 'my-snapshot-name' })\n// deps pre-installed`}
  },
  image:{del:true,ms:'94ms',settings:['image'],
-  py:()=>`from daytona import Daytona, CreateSandboxFromSnapshotParams, Image\n\ndaytona = Daytona()\n\nimage = Image.base("python:3.12-slim").run_commands(\n    "pip install requests pandas numpy"\n).workdir("/home/daytona")\n\nsandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(image=image)\n)\n\nresponse = sandbox.process.exec("python -c 'import pandas; print(pandas.__version__)'")\nprint(response.result)\n\nsandbox.delete()`,
-  ts:()=>`import { Daytona, Image } from '@daytona/sdk'\n\nconst daytona = new Daytona()\n\nconst image = Image.base('python:3.12-slim')\n  .runCommands('pip install requests pandas numpy')\n  .workdir('/home/daytona')\n\nconst sandbox = await daytona.create({ image })\n\nconst r = await sandbox.process.executeCommand('echo "deps ready"')\nconsole.log(r.result)\nawait sandbox.delete()`,
-  out:['<span style="color:#7bd88f">✓ Image built · sandbox ready</span>','<span style="color:#e8e8ea">pandas ready</span>','<span style="color:#7a7a7e">Sandbox deleted.</span>'],
-  snip:{py:`image = Image.base("python:3.12-slim")\\\n    .run_commands("pip install requests pandas")\\\n    .workdir("/home/daytona")\nsandbox = daytona.create(CreateSandboxFromSnapshotParams(image=image))`,ts:`const image = Image.base('python:3.12-slim')\n  .runCommands('pip install requests pandas')\nconst sandbox = await daytona.create({ image })`}
+  py:()=>`from daytona import Daytona, CreateSandboxFromImageParams, Image\n\ndaytona = Daytona()\n\nimage = (\n    Image.debian_slim("3.12")\n    .pip_install(["requests", "pandas", "numpy"])\n    .workdir("/home/daytona")\n)\n\nsandbox = daytona.create(\n    CreateSandboxFromImageParams(image=image),\n    on_snapshot_create_logs=print\n)`,
+  ts:()=>`import { Daytona, Image } from '@daytona/sdk'\n\nconst daytona = new Daytona()\n\nconst image = Image.debianSlim('3.12')\n  .pipInstall(['requests', 'pandas', 'numpy'])\n  .workdir('/home/daytona')\n\nconst sandbox = await daytona.create({\n  image,\n  onSnapshotCreateLogs: console.log\n})`,
+  out:['<span style="color:#7bd88f">✓ Image built · sandbox ready</span>','<span style="color:#7a7a7e">Collecting requests, pandas, numpy…</span>','<span style="color:#e8e8ea">Snapshot created — deps pre-installed.</span>','<span style="color:#7a7a7e">Sandbox deleted.</span>'],
+  snip:{py:`image = (\n    Image.debian_slim("3.12")\n    .pip_install(["requests", "pandas", "numpy"])\n    .workdir("/home/daytona")\n)\nsandbox = daytona.create(CreateSandboxFromImageParams(image=image))`,ts:`const image = Image.debianSlim('3.12')\n  .pipInstall(['requests','pandas','numpy'])\nconst sandbox = await daytona.create({ image })`}
  },
  volumes:{del:true,ms:'92ms',settings:['volumes'],
   py:()=>{const n=($('vol-name')&&$('vol-name').value)||'my-volume',p=($('vol-path')&&$('vol-path').value)||'/mnt/shared';return `from daytona import Daytona, CreateSandboxFromSnapshotParams, VolumeMount\n\ndaytona = Daytona()\nsandbox = daytona.create(\n    CreateSandboxFromSnapshotParams(\n        volumes=[\n            VolumeMount(\n                volume_name="${n}",\n                mount_path="${p}"\n            )\n        ]\n    )\n)\n\nsandbox.fs.upload_file(b"shared data", "${p}/data.txt")\nprint("Data written to shared volume")\n\nsandbox.delete()`;},
@@ -541,6 +576,12 @@ const P={
   ts:()=>{const u=($('git-url')&&$('git-url').value)||'https://github.com/daytonaio/daytona.git',p=($('git-path')&&$('git-path').value)||'/tmp/daytona';return `import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create()\n\nawait sandbox.git.clone('${u}', '${p}')\n\nconst status = await sandbox.git.status('${p}')\nconsole.log(\`Branch: \${status.currentBranch}\`)\nawait sandbox.delete()`;},
   out:['<span style="color:#7bd88f">✓ Sandbox ready</span>','<span style="color:#7a7a7e">Cloning repository…</span>','<span style="color:#e8e8ea">Branch: main</span>','<span style="color:#7a7a7e">Sandbox deleted.</span>'],
   snip:{py:`sandbox.git.clone(\n    "https://github.com/your/repo.git", "/tmp/repo"\n)\nstatus = sandbox.git.status("/tmp/repo")\nprint(status.current_branch)`,ts:`await sandbox.git.clone('https://github.com/your/repo.git', '/tmp/repo')\nconst s = await sandbox.git.status('/tmp/repo')\nconsole.log(s.currentBranch)`}
+ },
+ filesystem:{del:true,ms:'88ms',settings:['filesystem'],
+  py:()=>{const folder=($('fs-folder')&&$('fs-folder').value)||'workspace/new-dir',perms=($('fs-perms')&&$('fs-perms').value)||'755',listpath=($('fs-listpath')&&$('fs-listpath').value)||'workspace/new-dir',delpath=($('fs-delpath')&&$('fs-delpath').value)||'workspace/new-dir',deldir=($('fs-deldir')&&$('fs-deldir').checked)?'True':'False';return `from daytona import Daytona\n\ndaytona = Daytona()\nsandbox = daytona.create()\n\n# Create a folder\nsandbox.fs.create_folder("${folder}", "${perms}")\nprint(f"Folder created: ${folder}")\n\n# List files\nfiles = sandbox.fs.list_files("${listpath}")\nfor f in files:\n    print(f"  {f.name}")\n\n# Delete file/directory\nsandbox.fs.delete_file("${delpath}", delete_directory=${deldir})\nprint("Deleted.")\n\nsandbox.delete()`;},
+  ts:()=>{const folder=($('fs-folder')&&$('fs-folder').value)||'workspace/new-dir',perms=($('fs-perms')&&$('fs-perms').value)||'755',listpath=($('fs-listpath')&&$('fs-listpath').value)||'workspace/new-dir',delpath=($('fs-delpath')&&$('fs-delpath').value)||'workspace/new-dir',deldir=($('fs-deldir')&&$('fs-deldir').checked)?'true':'false';return `import { Daytona } from '@daytona/sdk'\n\nconst daytona = new Daytona()\nconst sandbox = await daytona.create()\n\n// Create a folder\nawait sandbox.fs.createFolder('${folder}', '${perms}')\nconsole.log('Folder created: ${folder}')\n\n// List files\nconst files = await sandbox.fs.listFiles('${listpath}')\nfiles.forEach(f => console.log(' ', f.name))\n\n// Delete file/directory\nawait sandbox.fs.deleteFile('${delpath}', { deleteDirectory: ${deldir} })\nconsole.log('Deleted.')\n\nawait sandbox.delete()`;},
+  out:['<span style="color:#7bd88f">✓ Sandbox ready</span>','<span style="color:#e8e8ea">Folder created: workspace/new-dir</span>','<span style="color:#7a7a7e">Listing files…</span>','<span style="color:#e8e8ea">  data.txt · config.json</span>','<span style="color:#7a7a7e">Deleted. Sandbox deleted.</span>'],
+  snip:{py:`sandbox.fs.create_folder("workspace/new-dir", "755")\nfiles = sandbox.fs.list_files("workspace/new-dir")\nfor f in files: print(f.name)\nsandbox.fs.delete_file("workspace/new-dir", delete_directory=True)`,ts:`await sandbox.fs.createFolder('workspace/new-dir', '755')\nconst files = await sandbox.fs.listFiles('workspace/new-dir')\nfiles.forEach(f => console.log(f.name))\nawait sandbox.fs.deleteFile('workspace/new-dir', { deleteDirectory: true })`}
  }
 };
 let cur='default',lang='python',running=false,snipLang='python';
@@ -685,10 +726,22 @@ function annotateCode(){
 
 function manualEdit(){
  document.querySelectorAll('.uc').forEach(b=>b.classList.remove('active'));
+ $('aiinput').style.display='none';
  cur=null;
 }
 function sel(k){
- if(running)return;cur=k;
+ if(running)return;
+ const aiInput=$('aiinput');
+ // toggle AI input visibility
+ aiInput.style.display=(k==='ai')?'block':'none';
+ if(k==='ai'){
+  cur=null;
+  document.querySelectorAll('.uc').forEach(b=>b.classList.toggle('active',b.dataset.t==='ai'));
+  document.querySelectorAll('.ctxset').forEach(el=>el.classList.remove('show'));
+  setTimeout(()=>$('ai-input').focus(),50);
+  return;
+ }
+ cur=k;
  document.querySelectorAll('.uc').forEach(b=>b.classList.toggle('active',b.dataset.t===k));
  document.querySelectorAll('.ctxset').forEach(el=>el.classList.remove('show'));
  (P[k].settings||[]).forEach(s=>{const el=$('ctxset-'+s);if(el)el.classList.add('show');});
@@ -701,7 +754,7 @@ $('langseg').querySelectorAll('button').forEach(b=>b.addEventListener('click',()
  $('langseg').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
  b.classList.add('on');lang=b.dataset.l;buildCode();
 }));
-['run-code','res-cpu','res-mem','res-disk','snap-name','img-dockerfile','vol-name','vol-path','git-url','git-path'].forEach(id=>{
+['run-code','res-cpu','res-mem','res-disk','snap-name','img-dockerfile','vol-name','vol-path','git-url','git-path','fs-folder','fs-perms','fs-listpath','fs-delpath','fs-deldir'].forEach(id=>{
  const el=$(id);if(el){el.addEventListener('input',()=>buildCode());el.addEventListener('change',()=>buildCode());}
 });
 function setChip(state){
@@ -739,6 +792,8 @@ $('runbtn').addEventListener('click',()=>{
      setTimeout(()=>{
       stageDone('result',2,()=>{
        status.textContent='Completed';status.style.color='var(--green)';running=false;
+       setChip('');
+       showToast();
        $('meta-time').textContent=preset.ms;
        $('meta-del-txt').textContent=preset.del?'auto-deleted':'persists';
        $('meta-del').classList.toggle('green',preset.del);
@@ -747,8 +802,12 @@ $('runbtn').addEventListener('click',()=>{
 
        $('installcmd').textContent=lang==='python'?'pip install daytona':'npm install @daytona/sdk';
        $('docspanel').classList.add('show');
-       if(preset.del){stageOn('del');setTimeout(()=>{stageDone('del');setChip('gone');},500);}
-       else{setChip('done');}
+       if(preset.del){stageOn('del');setTimeout(()=>{
+        stageDone('del',null,null);
+        setChip('');
+        status.textContent='Deleted';status.style.color='var(--txt3)';
+       },500);}
+       else{setChip('');}
       });
      },300);
     });
@@ -756,6 +815,34 @@ $('runbtn').addEventListener('click',()=>{
   });
  },600);
 });
+// ── Toast ────────────────────────────────────────────────────────────────────
+let toastTimer=null;
+function showToast(){
+ const t=$('toast');t.classList.add('show');
+ clearTimeout(toastTimer);toastTimer=setTimeout(hideToast,6000);
+}
+function hideToast(){$('toast').classList.remove('show');}
+window.hideToast=hideToast;
+
+// ── Resource input validation ─────────────────────────────────────────────────
+const validators=[
+ {id:'res-cpu', min:1, max:8, errId:'err-cpu', msg:'Max 8 vCPU'},
+ {id:'res-mem', min:1, max:8, errId:'err-mem', msg:'Max 8 GiB memory'},
+ {id:'res-disk',min:1, max:8, errId:'err-disk',msg:'Max 8 GiB disk'},
+];
+validators.forEach(({id,min,max,errId,msg})=>{
+ const el=$(id);const err=$(errId);if(!el||!err)return;
+ el.addEventListener('input',()=>{
+  const v=parseFloat(el.value);
+  const bad=isNaN(v)||v<min||v>max;
+  el.classList.toggle('invalid',bad);
+  err.textContent=v<min?`Min ${min}`:`Max ${max}`;
+  err.classList.toggle('show',bad);
+  buildCode();
+ });
+});
+
+
 function hidePost(){
  $('meta').classList.remove('show');$('snippet').classList.remove('show');
  $('createcta').classList.remove('show');$('docspanel').classList.remove('show');
@@ -769,7 +856,6 @@ $('sniplang').querySelectorAll('button').forEach(b=>b.addEventListener('click',(
 }));
 $('snipcopy').addEventListener('click',()=>{navigator.clipboard.writeText($('snipcode').textContent).then(()=>{$('snipcopylbl').textContent='Copied';setTimeout(()=>$('snipcopylbl').textContent='Copy',1400);});});
 // anon mode removed
-const ctabtn=$('createctabtn');if(ctabtn)ctabtn.addEventListener('click',()=>alert('Create Sandbox'));
 function setShareOpt(v){
  const pub=v==='public';
  $('opt-private').style.background=pub?'transparent':'#1e1e22';$('opt-private').style.borderColor=pub?'#2a2a2d':'#3a3a3e';
